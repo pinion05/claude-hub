@@ -1,0 +1,22 @@
+export const defaultSuggestions = [
+  'vscode extension',
+  'api wrapper',
+  'browser extension',
+  'raycast extension',
+  'development tools',
+  'productivity tools',
+  'python sdk',
+  'javascript sdk',
+  'slack bot',
+  'discord bot',
+  'chrome extension',
+  'notion integration',
+  'obsidian plugin',
+  'terminal tools',
+  'mobile sdk',
+  'data analytics',
+  'devops tools',
+  'github action',
+  'docker image',
+  'wordpress plugin'
+];
