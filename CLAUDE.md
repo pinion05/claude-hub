@@ -23,6 +23,21 @@ npm run start
 
 # Run linting
 npm run lint
+npm run lint:fix       # Auto-fix linting issues
+
+# Type checking
+npm run type-check
+
+# Testing
+npm run test           # Run all tests
+npm run test:watch     # Run tests in watch mode  
+npm run test:coverage  # Run tests with coverage report
+
+# Analyze bundle size
+npm run analyze
+
+# Clean install
+npm run clean         # Remove .next and node_modules
 ```
 
 ## Architecture & Key Design Decisions
@@ -30,14 +45,35 @@ npm run lint
 ### Tech Stack
 - **Next.js 15.4.5** with App Router and Turbopack
 - **React 19.1.0** 
-- **TypeScript** with strict mode enabled
+- **TypeScript** with strict mode enabled (including noUnusedLocals, noUnusedParameters, noUncheckedIndexedAccess)
 - **Tailwind CSS v4** (using @tailwindcss/postcss)
-- **Font System**: Geist Sans + Geist Mono fonts
+- **Testing**: Jest with React Testing Library, 80% coverage threshold
+- **Code Quality**: ESLint with Next.js config, Husky for pre-commit hooks, lint-staged
 
-### Project Structure
-- `/src/app/` - Next.js App Router pages and layouts
-- Path alias configured: `@/*` maps to `./src/*`
-- Using ES2017 target with modern module resolution
+### Component Architecture (Atomic Design)
+```
+src/components/
+├── atoms/         # Basic building blocks (Button, Input, Badge, Logo, Skeleton)
+├── molecules/     # Simple groups (SearchBar, ExtensionCard, Modal, SuggestionList)
+├── organisms/     # Complex structures (Header, ExtensionGrid, ExtensionModal, SearchSection)
+└── templates/     # Page templates (HomePage)
+```
+
+### State Management Architecture
+- **Search State**: Manages query, suggestions, keyboard navigation, and loading states
+- **UI State**: Handles sticky search positioning, selected extensions, and modal states
+- **Filter Options**: Category filtering, sorting (name/stars/downloads/lastUpdated)
+- No external state management library - uses React hooks and prop drilling
+
+### Path Aliases
+All imports should use these configured aliases:
+- `@/*` → `./src/*`
+- `@/components/*`, `@/lib/*`, `@/hooks/*`, `@/types/*`, `@/utils/*`, `@/data/*`, etc.
+
+### Data Architecture
+- **Extensions Data**: Static data in `src/data/extensions.ts` with Extension interface
+- **Extension Categories**: 11 predefined categories (Development, API, Browser, etc.)
+- **Search Suggestions**: Default suggestions in `src/data/suggestions.ts`
 
 ### Design System
 The project follows a dark-themed terminal aesthetic with these core elements:
@@ -46,17 +82,32 @@ The project follows a dark-themed terminal aesthetic with these core elements:
 - **Animations**: 200ms transitions, search bar slides from center to top
 - **Effects**: 3D card tilts (5°), coral glow effects, gradient backgrounds
 
-### Key UI Components to Implement
-1. **Search Interface**: Google-style central search with terminal prompt (>)
-2. **Terminal Intelligence**: Real-time autocomplete with keyboard navigation
-3. **Extension Cards**: 3D tilt effect with hover states
-4. **Modal System**: 80% screen size with blur background
-5. **Loading States**: Skeleton loaders during search
+### Key UI Behaviors
+1. **Search Flow**: Center search → animate to top on search → show results with skeleton loaders
+2. **Keyboard Navigation**: Arrow keys for suggestion navigation, Enter to select, ESC to close
+3. **Modal System**: 80% screen size, backdrop blur, close on X or background click
+4. **Responsive Design**: Mobile-first approach with responsive grid layouts
 
 ## TypeScript Configuration
 
 The project uses strict TypeScript with:
+- ES2017 target with DOM and ESNext libs
 - Bundler module resolution
-- JSON module imports enabled
-- Path aliases configured (@/* for src/*)
-- Next.js plugin for enhanced type checking
+- Strict mode with additional checks (exactOptionalPropertyTypes, noUncheckedIndexedAccess)
+- All unused variables/parameters must be prefixed with `_` to pass linting
+
+## Testing Strategy
+
+- Test files should be colocated with components (e.g., `Button.test.tsx`)
+- Jest configured with Next.js and jsdom environment
+- 80% coverage threshold for all metrics (branches, functions, lines, statements)
+- Testing utilities from React Testing Library
+
+## Build & Deploy Considerations
+
+- React strict mode enabled
+- Console logs removed in production builds
+- CSS and package imports optimized
+- Image optimization with AVIF/WebP formats
+- Security headers configured (no powered-by header)
+- Build errors from TypeScript and ESLint will fail the build
