@@ -5,7 +5,7 @@
   --background: #0A0A0B;
   --foreground: #F5F5F5;
   --card: #111111;
-  --accent: #FF6B6B;
+  --accent: #FF8A5B;
   --border: #222222;
 }
 
@@ -48,8 +48,8 @@ body {
 /* 글로우 효과 */
 .glow-coral {
   box-shadow: 
-    0 0 20px rgba(255, 107, 107, 0.5),
-    inset 0 0 20px rgba(255, 107, 107, 0.1);
+    0 0 20px rgba(255, 138, 91, 0.5),
+    inset 0 0 20px rgba(255, 138, 91, 0.1);
 }
 
 /* 3D 카드 효과 */

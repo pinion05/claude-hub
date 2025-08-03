@@ -20,7 +20,7 @@ export const Logo: React.FC<LogoProps> = ({
   return (
     <h1
       className={cn(
-        'font-bold bg-gradient-to-r from-accent to-pink-400 bg-clip-text text-transparent',
+        'font-bold text-accent',
         'cursor-pointer select-none',
         sizeClasses[size],
         className
