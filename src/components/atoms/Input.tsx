@@ -15,8 +15,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     const variantClasses = {
-      default: 'bg-card border border-border',
-      search: 'bg-transparent'
+      default: 'bg-card border border-border focus:ring-2 focus:ring-accent/20 focus:border-accent',
+      search: 'bg-transparent border-none focus:ring-0'
     };
 
     return (
@@ -25,7 +25,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         className={cn(
           'w-full rounded-lg outline-none font-mono placeholder-gray-500',
           'transition-all duration-200',
-          'focus:ring-2 focus:ring-accent/20',
           sizeClasses[size],
           variantClasses[variant],
           className

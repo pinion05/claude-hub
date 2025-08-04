@@ -1,6 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* 0xProto Mono Font */
+@font-face {
+  font-family: '0xProto';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/0xproto/files/0xproto-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '0xProto';
+  src: url('https://cdn.jsdelivr.net/npm/@fontsource/0xproto/files/0xproto-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #0A0A0B;
   --foreground: #F5F5F5;
@@ -15,14 +32,14 @@
   --color-card: var(--card);
   --color-accent: var(--accent);
   --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: 'Fira Code', var(--font-geist-mono);
+  --font-sans: '0xProto', 'Fira Code', monospace;
+  --font-mono: '0xProto', 'Fira Code', var(--font-fira-code), monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-mono);
+  font-family: '0xProto', 'Fira Code', var(--font-fira-code), monospace;
   overflow-x: hidden;
 }
 

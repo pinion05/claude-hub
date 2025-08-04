@@ -44,7 +44,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       <div className={cn(
         'flex items-center bg-card border border-border rounded-lg',
         'transition-all duration-200 hover:border-accent/50',
-        'focus-within:border-accent/50 focus-within:ring-2 focus-within:ring-accent/20',
+        'focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/30',
         containerClasses[size],
         className
       )}>
