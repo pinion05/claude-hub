@@ -16,7 +16,7 @@ export function LiveRegion({
   children,
   level = 'polite',
   atomic = true,
-  relevant = 'additions text',
+  relevant = 'additions',
   className = 'sr-only'
 }: LiveRegionProps) {
   const regionRef = useRef<HTMLDivElement>(null);

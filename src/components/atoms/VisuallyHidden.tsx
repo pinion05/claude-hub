@@ -49,8 +49,10 @@ export function ScreenReaderOnly({
   children: React.ReactNode; 
   className?: string; 
 }) {
+  const props = className ? { className } : {};
+  
   return (
-    <VisuallyHidden className={className}>
+    <VisuallyHidden {...props}>
       {children}
     </VisuallyHidden>
   );

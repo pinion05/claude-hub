@@ -42,7 +42,7 @@ export interface UIState {
 
 export interface FilterOptions {
   category?: ExtensionCategory;
-  sortBy?: 'name' | 'stars' | 'downloads' | 'lastUpdated';
+  sortBy?: 'name' | 'stars' | 'downloads' | 'lastUpdated' | 'relevance';
   sortOrder?: 'asc' | 'desc';
 }
 

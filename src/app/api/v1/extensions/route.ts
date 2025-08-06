@@ -69,7 +69,7 @@ import { searchQuerySchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse, createPaginationMeta } from '@/lib/api/middleware';
 import type { RequestContext } from '@/lib/api/types';
 
-async function handleGetExtensions(_context: RequestContext) {
+async function handleGetExtensions(context: RequestContext) {
   const { req } = context;
   const { searchParams } = new URL(req.url);
   
@@ -97,12 +97,15 @@ async function handleGetExtensions(_context: RequestContext) {
   // 전체 조회 또는 필터 적용
   else {
     if (Object.keys(filters).length > 0 || sortBy !== 'name' || sortOrder !== 'desc') {
-      extensions = await filterExtensions({
+      const filterOptions: Parameters<typeof filterExtensions>[0] = {
         sortBy,
         sortOrder,
-        category: filters.category,
         ...filters,
-      });
+      };
+      if (category) {
+        filterOptions.category = category;
+      }
+      extensions = await filterExtensions(filterOptions);
     } else {
       extensions = await getAllExtensions();
     }
@@ -148,7 +151,7 @@ async function handleGetExtensions(_context: RequestContext) {
  *       403:
  *         description: 권한 없음
  */
-async function handleCreateExtension(context: RequestContext) {
+async function handleCreateExtension(_context: RequestContext) {
   // TODO: 실제 데이터베이스에 저장 로직 구현
   // 현재는 정적 데이터를 사용하므로 구현하지 않음
   

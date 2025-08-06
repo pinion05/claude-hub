@@ -74,7 +74,7 @@ export default async function ExtensionOGImage({ params }: Props) {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: '#0A0A0B',
-          background: `linear-gradient(135deg, ${colors.accent} 0%, #1F2937 100%)`,
+          background: `linear-gradient(135deg, ${colors?.accent || '#FF6B6B'} 0%, #1F2937 100%)`,
           fontFamily: 'system-ui, -apple-system, sans-serif',
           position: 'relative',
         }}
@@ -84,7 +84,7 @@ export default async function ExtensionOGImage({ params }: Props) {
           style={{
             position: 'absolute',
             inset: 0,
-            background: `radial-gradient(circle at 20% 20%, ${colors.primary}20 0%, transparent 50%), radial-gradient(circle at 80% 80%, ${colors.secondary}20 0%, transparent 50%)`,
+            background: `radial-gradient(circle at 20% 20%, ${colors?.primary || '#FF6B6B'}20 0%, transparent 50%), radial-gradient(circle at 80% 80%, ${colors?.secondary || '#4ECDC4'}20 0%, transparent 50%)`,
           }}
         />
 
@@ -109,7 +109,7 @@ export default async function ExtensionOGImage({ params }: Props) {
               style={{
                 width: '48px',
                 height: '48px',
-                backgroundColor: colors.primary,
+                backgroundColor: colors?.primary || '#FF6B6B',
                 borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
@@ -136,7 +136,7 @@ export default async function ExtensionOGImage({ params }: Props) {
           <div
             style={{
               padding: '8px 16px',
-              backgroundColor: colors.primary,
+              backgroundColor: colors?.primary || '#FF6B6B',
               borderRadius: '20px',
               fontSize: '14px',
               fontWeight: '600',
@@ -166,14 +166,14 @@ export default async function ExtensionOGImage({ params }: Props) {
             style={{
               width: '120px',
               height: '120px',
-              backgroundColor: colors.primary,
+              backgroundColor: colors?.primary || '#FF6B6B',
               borderRadius: '24px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '32px',
               fontSize: '48px',
-              boxShadow: `0 20px 40px ${colors.primary}30`,
+              boxShadow: `0 20px 40px ${colors?.primary || '#FF6B6B'}30`,
             }}
           >
             {getCategoryIcon(extension.category)}
@@ -230,7 +230,7 @@ export default async function ExtensionOGImage({ params }: Props) {
                   style={{
                     fontSize: '20px',
                     fontWeight: '600',
-                    color: colors.secondary,
+                    color: colors?.secondary || '#4ECDC4',
                   }}
                 >
                   {extension.stars.toLocaleString()}
@@ -255,7 +255,7 @@ export default async function ExtensionOGImage({ params }: Props) {
                   style={{
                     fontSize: '20px',
                     fontWeight: '600',
-                    color: colors.secondary,
+                    color: colors?.secondary || '#4ECDC4',
                   }}
                 >
                   {extension.downloads > 1000 

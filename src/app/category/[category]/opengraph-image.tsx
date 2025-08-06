@@ -39,7 +39,7 @@ export default async function CategoryOGImage({ params }: Props) {
     default: { primary: '#FF6B6B', secondary: '#4ECDC4', bg: 'linear-gradient(135deg, #2D3748 0%, #4A5568 100%)' }
   };
 
-  const colors = categoryColors[matchedCategory?.toLowerCase() || 'default'] || categoryColors.default;
+  const colors = categoryColors[matchedCategory?.toLowerCase() || 'default'] ?? categoryColors.default;
 
   return new ImageResponse(
     (
@@ -52,7 +52,7 @@ export default async function CategoryOGImage({ params }: Props) {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#0A0A0B',
-          background: colors.bg,
+          background: colors?.bg || 'linear-gradient(135deg, #2D3748 0%, #4A5568 100%)',
           fontFamily: 'system-ui, -apple-system, sans-serif',
           position: 'relative',
         }}
@@ -80,7 +80,7 @@ export default async function CategoryOGImage({ params }: Props) {
             style={{
               width: '64px',
               height: '64px',
-              backgroundColor: colors.primary,
+              backgroundColor: colors?.primary || '#FF6B6B',
               borderRadius: '16px',
               display: 'flex',
               alignItems: 'center',
@@ -110,7 +110,7 @@ export default async function CategoryOGImage({ params }: Props) {
           style={{
             fontSize: '48px',
             fontWeight: 'bold',
-            color: colors.primary,
+            color: colors?.primary || '#FF6B6B',
             textAlign: 'center',
             marginBottom: '20px',
             textTransform: 'capitalize',
@@ -155,7 +155,7 @@ export default async function CategoryOGImage({ params }: Props) {
               style={{
                 fontSize: '32px',
                 fontWeight: 'bold',
-                color: colors.primary,
+                color: colors?.primary || '#FF6B6B',
               }}
             >
               {extensionCount}
@@ -185,7 +185,7 @@ export default async function CategoryOGImage({ params }: Props) {
               style={{
                 fontSize: '32px',
                 fontWeight: 'bold',
-                color: colors.secondary,
+                color: colors?.secondary || '#4ECDC4',
               }}
             >
               {totalStars > 1000 ? `${Math.round(totalStars / 1000)}K` : totalStars}

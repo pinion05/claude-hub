@@ -7,6 +7,7 @@ interface UseSearchProps {
   extensions: Extension[];
   suggestions: string[];
   debounceDelay?: number;
+  initialQuery?: string;
 }
 
 interface UseSearchReturn extends SearchState {
@@ -21,10 +22,11 @@ interface UseSearchReturn extends SearchState {
 export const useSearch = ({
   extensions,
   suggestions,
-  debounceDelay = 300
+  debounceDelay = 300,
+  initialQuery = ''
 }: UseSearchProps): UseSearchReturn => {
   const [searchState, setSearchState] = useState<SearchState>({
-    query: '',
+    query: initialQuery,
     suggestions: [],
     selectedSuggestionIndex: -1,
     isSearching: false,

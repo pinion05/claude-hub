@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { ExtensionCategory } from '@/types';
 import { PAGINATION } from './constants';
 
 // 공통 스키마

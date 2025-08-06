@@ -22,7 +22,7 @@ export function StructuredData({
   extensions, 
   stats: _stats, 
   pageType = 'website',
-  currentUrl = 'https://claude-hub.vercel.app',
+  currentUrl: _currentUrl = 'https://claude-hub.vercel.app',
   searchQuery,
   category,
   extension

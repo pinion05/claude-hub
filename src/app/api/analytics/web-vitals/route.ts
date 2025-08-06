@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Rate limiting check (simple implementation)
-    const clientIP = request.ip || 'unknown';
+    const clientIP = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
     const isRateLimited = await checkRateLimit(clientIP);
     
     if (isRateLimited) {

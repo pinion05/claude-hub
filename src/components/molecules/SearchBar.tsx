@@ -1,7 +1,6 @@
 import React, { forwardRef, useId } from 'react';
 import { Input } from '@/components/atoms/Input';
 import { cn } from '@/utils/classNames';
-import { ScreenReaderOnly } from '@/components/atoms/VisuallyHidden';
 
 export interface SearchBarProps {
   value: string;
@@ -129,9 +128,9 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         aria-label={ariaLabel || 'Search extensions'}
       >
         {/* Hidden description for screen readers */}
-        <ScreenReaderOnly id={descriptionId}>
+        <div id={descriptionId} className="sr-only">
           {statusDescription}
-        </ScreenReaderOnly>
+        </div>
         
         {/* Terminal prompt */}
         {showPrompt && variant === 'terminal' && (
@@ -157,7 +156,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         {loading && (
           <div className="flex-shrink-0 mr-3" role="status" aria-label="Searching">
             <div className="animate-spin w-4 h-4 border-2 border-accent border-t-transparent rounded-full" />
-            <ScreenReaderOnly>Loading search results...</ScreenReaderOnly>
+            <div className="sr-only">Loading search results...</div>
           </div>
         )}
 

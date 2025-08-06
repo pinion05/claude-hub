@@ -139,7 +139,7 @@ export function getBestMatchingLocale(acceptLanguage?: string): Locale {
  */
 export function generateHreflangLinks(
   basePath: string,
-  currentLocale: Locale = defaultLocale
+  _currentLocale: Locale = defaultLocale
 ): Array<{ hreflang: string; href: string }> {
   const enabledLocales = getEnabledLocales();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://claude-hub.vercel.app';
@@ -204,7 +204,7 @@ export function removeLocaleFromPath(path: string): { locale: Locale; path: stri
  */
 export function generateAlternateUrls(
   path: string,
-  currentLocale: Locale = defaultLocale
+  _currentLocale: Locale = defaultLocale
 ): Record<string, string> {
   const enabledLocales = getEnabledLocales();
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://claude-hub.vercel.app';

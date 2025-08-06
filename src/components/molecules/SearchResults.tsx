@@ -36,14 +36,19 @@ export function SearchResults({
 
   // Update results count and trigger announcement
   useEffect(() => {
+    let timer: NodeJS.Timeout | undefined;
+    
     if (!loading && previousResultsCount !== null && previousResultsCount !== extensions.length) {
       setAnnounceResults(true);
-      const timer = setTimeout(() => setAnnounceResults(false), 100);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setAnnounceResults(false), 100);
     }
     if (!loading) {
       setPreviousResultsCount(extensions.length);
     }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [extensions.length, loading, previousResultsCount]);
 
   // Generate status message for screen readers

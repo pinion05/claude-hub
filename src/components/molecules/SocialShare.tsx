@@ -28,7 +28,7 @@ export function SocialShare({
   extension,
   url = typeof window !== 'undefined' ? window.location.href : '',
   title = extension?.name || 'Claude Hub - AI Extensions',
-  description = extension?.description || 'Discover Claude AI extensions and tools',
+  description: _description,
   className,
   variant = 'horizontal',
   size = 'md'
@@ -42,7 +42,6 @@ export function SocialShare({
 
   const shareUrl = encodeURIComponent(url);
   const shareTitle = encodeURIComponent(shareText);
-  const shareDescription = encodeURIComponent(description);
 
   const platforms: SharePlatform[] = [
     {
@@ -116,8 +115,8 @@ export function SocialShare({
     window.open(platform.url, '_blank', 'noopener,noreferrer');
     
     // Analytics tracking
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'share', {
+    if (typeof window !== 'undefined' && 'gtag' in window) {
+      (window as any).gtag('event', 'share', {
         method: platform.name,
         content_type: extension ? 'extension' : 'page',
         content_id: extension?.id || url
@@ -127,7 +126,7 @@ export function SocialShare({
 
   const shareButton = (
     <Button
-      variant="outline"
+      variant="secondary"
       size={size}
       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       className="relative"
@@ -195,7 +194,7 @@ export function SocialShare({
       {platforms.map((platform) => (
         <Button
           key={platform.name}
-          variant="outline"
+          variant="secondary"
           size={size}
           onClick={() => handleShare(platform)}
           className={cn(
@@ -228,7 +227,7 @@ export function SocialShare({
       ))}
 
       <Button
-        variant="outline"
+        variant="secondary"
         size={size}
         onClick={copyToClipboard}
         className={cn(

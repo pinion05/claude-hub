@@ -48,7 +48,8 @@ export async function rateLimitMiddleware(
   endpoint: keyof typeof RATE_LIMITS = 'GENERAL'
 ): Promise<{ allowed: boolean; rateLimitInfo: RateLimitMeta }> {
   const config = RATE_LIMITS[endpoint];
-  const ip = request.ip ?? 'anonymous';
+  // Use x-forwarded-for header or fallback to anonymous
+  const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'anonymous';
   
   const now = Date.now();
   const userRequests = requestCounts.get(ip) || { count: 0, resetTime: now + config.windowMs };
@@ -193,8 +194,8 @@ export function createErrorResponse(
 export function createSuccessResponse<T>(
   data: T,
   meta?: Partial<RequestContext['rateLimitInfo']> & {
-    pagination?: any;
-    cache?: any;
+    pagination?: Record<string, unknown>;
+    cache?: Record<string, unknown>;
     executionTime?: number;
   }
 ): NextResponse<ApiResponse<T>> {
@@ -246,14 +247,14 @@ export function createPaginationMeta(
 }
 
 // API 미들웨어 체인
-export async function withMiddleware(
+export function withMiddleware(
   handler: (context: RequestContext) => Promise<NextResponse>,
   options: {
     requireAuth?: boolean;
     rateLimit?: keyof typeof RATE_LIMITS;
   } = {}
 ) {
-  return async (request: NextRequest, params?: { params: Record<string, string> }) => {
+  return async (request: NextRequest, routeContext: { params: Promise<Record<string, string>> }) => {
     const startTime = Date.now();
 
     try {
@@ -286,15 +287,16 @@ export async function withMiddleware(
       }
 
       // Request context 생성
-      const context: RequestContext = {
+      const params = routeContext?.params ? await routeContext.params : undefined;
+      const requestContext: RequestContext = {
         req: request,
-        params: params?.params,
+        params,
         user,
         rateLimitInfo,
       };
 
       // 핸들러 실행
-      const result = await handler(context);
+      const result = await handler(requestContext);
       
       // 실행 시간 추가
       const executionTime = Date.now() - startTime;

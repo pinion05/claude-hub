@@ -14,11 +14,10 @@ type Logger = <
 export const logger: Logger = (f, name) => (set, get, store) => {
   const loggedSet: typeof set = (...a) => {
     if (process.env.NODE_ENV === 'development') {
-      console.group(`🏪 ${name || 'Store'} Update`);
-      console.error('Previous State:', get());
+      console.warn(`🏪 ${name || 'Store'} Update`);
+      console.warn('Previous State:', get());
       set(...a);
-      console.error('New State:', get());
-      console.groupEnd();
+      console.warn('New State:', get());
     } else {
       set(...a);
     }
@@ -85,7 +84,7 @@ export const stateTracker: StateTracker = (f, trackFields) => (set, get, store) 
       }, {} as Record<string, { from: any; to: any }>);
       
       if (Object.keys(changes).length > 0) {
-        console.table(changes);
+        console.warn('State Changes:', changes);
       }
     }
     

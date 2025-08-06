@@ -33,25 +33,24 @@ export function AccessibleSearchSection({
   showFilters = true
 }: AccessibleSearchSectionProps) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const [_selectedSuggestionIndex, _setSelectedSuggestionIndex] = useState(-1);
   const [announceMessage, setAnnounceMessage] = useState('');
   
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const suggestionsRef = useRef<HTMLDivElement>(null);
 
   // Search functionality
   const {
     query,
-    setQuery,
     suggestions,
     filteredExtensions,
-    isLoading,
-    debouncedQuery
+    isSearching: isLoading,
+    handleSearchChange,
+    handleSuggestionSelect
   } = useSearch({
     extensions,
-    initialQuery,
-    enableSuggestions: true,
-    debounceMs: 300
+    suggestions: [],
+    debounceDelay: 300,
+    initialQuery
   });
 
   // Focus management
@@ -63,7 +62,7 @@ export function AccessibleSearchSection({
   // Keyboard navigation for suggestions
   const {
     activeIndex: activeSuggestionIndex,
-    handleKeyDown: handleSuggestionKeyDown,
+    handleKeyDown: _handleSuggestionKeyDown,
     moveNext: moveToNextSuggestion,
     movePrevious: moveToPreviousSuggestion,
     selectActive: selectActiveSuggestion,
@@ -71,7 +70,7 @@ export function AccessibleSearchSection({
   } = useKeyboardNavigation(suggestions.length, {
     onSelect: (index) => {
       if (suggestions[index]) {
-        setQuery(suggestions[index]);
+        handleSearchChange(suggestions[index]);
         setIsSearchFocused(false);
         announceToScreenReader(`Selected suggestion: ${suggestions[index]}`);
       }
@@ -89,12 +88,12 @@ export function AccessibleSearchSection({
   }, []);
 
   // Handle search input changes
-  const handleSearchChange = useCallback((value: string) => {
-    setQuery(value);
+  const handleSearchInputChange = useCallback((value: string) => {
+    handleSearchChange(value);
     if (value.length > 0 && !isSearchFocused) {
       setIsSearchFocused(true);
     }
-  }, [setQuery, isSearchFocused]);
+  }, [handleSearchChange, isSearchFocused]);
 
   // Handle search input key events
   const handleSearchKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -173,24 +172,24 @@ export function AccessibleSearchSection({
   }, [setSuggestionIndex]);
 
   // Handle suggestion selection
-  const handleSuggestionSelect = useCallback((suggestion: string) => {
-    setQuery(suggestion);
+  const handleSuggestionSelection = useCallback((suggestion: string) => {
+    handleSuggestionSelect(suggestion);
     setIsSearchFocused(false);
     focusElement(searchInputRef.current);
     announceToScreenReader(`Search updated to: ${suggestion}`);
-  }, [setQuery, focusElement, announceToScreenReader]);
+  }, [handleSuggestionSelect, focusElement, announceToScreenReader]);
 
   // Clear search
   const handleClearSearch = useCallback(() => {
-    setQuery('');
+    handleSearchChange('');
     setIsSearchFocused(false);
     focusElement(searchInputRef.current);
     announceToScreenReader('Search cleared');
-  }, [setQuery, focusElement, announceToScreenReader]);
+  }, [handleSearchChange, focusElement, announceToScreenReader]);
 
   const showSuggestions = isSearchFocused && suggestions.length > 0 && query.length > 0;
   const hasResults = filteredExtensions.length > 0;
-  const showResults = debouncedQuery.length > 0 || filteredExtensions.length > 0;
+  const showResults = query.length > 0 || filteredExtensions.length > 0;
 
   return (
     <section 
@@ -213,7 +212,7 @@ export function AccessibleSearchSection({
       <LiveRegion>
         {isLoading ? 'Searching...' : 
          hasResults ? `${filteredExtensions.length} extensions found` : 
-         debouncedQuery ? 'No extensions found' : ''}
+         query ? 'No extensions found' : ''}
       </LiveRegion>
 
       {/* Search input section */}
@@ -221,7 +220,7 @@ export function AccessibleSearchSection({
         <SearchBar
           ref={searchInputRef}
           value={query}
-          onChange={handleSearchChange}
+          onChange={handleSearchInputChange}
           onKeyDown={handleSearchKeyDown}
           onFocus={handleSearchFocus}
           onBlur={handleSearchBlur}
@@ -249,15 +248,8 @@ export function AccessibleSearchSection({
         {showSuggestions && (
           <div className="absolute top-full left-0 right-0 z-50 mt-2">
             <SuggestionList
-              ref={suggestionsRef}
               suggestions={suggestions}
-              onSelect={handleSuggestionSelect}
-              activeIndex={activeSuggestionIndex}
-              query={query}
-              className="shadow-lg border border-border bg-card rounded-xl"
-              role="listbox"
-              aria-label="Search suggestions"
-              id="suggestions-list"
+              onSelect={handleSuggestionSelection}
             />
           </div>
         )}
@@ -269,7 +261,7 @@ export function AccessibleSearchSection({
           <SearchResults
             extensions={filteredExtensions}
             loading={isLoading}
-            query={debouncedQuery}
+            query={query}
             onExtensionClick={onExtensionClick}
             showFilters={showFilters}
             variant="grid"

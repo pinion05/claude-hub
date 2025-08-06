@@ -3,7 +3,6 @@ import { Extension } from '@/types';
 import { Badge } from '@/components/atoms/Badge';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
 import { cn } from '@/utils/classNames';
-import { ScreenReaderOnly } from '@/components/atoms/VisuallyHidden';
 
 export interface ExtensionCardProps {
   extension: Extension;
@@ -26,7 +25,6 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-  const _cardId = useId();
   const descriptionId = useId();
 
   const sizeClasses = {
@@ -144,9 +142,9 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
       data-testid={`extension-card-${extension.id}`}
     >
       {/* Screen reader description */}
-      <ScreenReaderOnly id={descriptionId}>
+      <div id={descriptionId} className="sr-only">
         {fullDescription}
-      </ScreenReaderOnly>
+      </div>
 
       {/* Background glow effect */}
       {isHovered && variant !== 'minimal' && (

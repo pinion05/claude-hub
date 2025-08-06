@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { getExtensions, getExtensionCategories, getExtensionStats } from '@/lib/server/data';
+import { getExtensions, getExtensionCategories } from '@/lib/server/data';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://claude-hub.vercel.app';
@@ -9,7 +9,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch data for dynamic sitemap generation
     const extensions = await getExtensions();
     const categories = getExtensionCategories();
-    const _stats = getExtensionStats(extensions);
 
     const routes: MetadataRoute.Sitemap = [
       // Main pages
@@ -56,7 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: extension.lastUpdated ? new Date(extension.lastUpdated) : currentDate,
         changeFrequency: 'monthly',
         priority: 0.6,
-        images: extension.icon ? [`${baseUrl}${extension.icon}`] : undefined
+        images: (extension as any).icon ? [`${baseUrl}${(extension as any).icon}`] : undefined
       });
     });
 

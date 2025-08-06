@@ -75,6 +75,10 @@ export async function filterExtensions(options: FilterOptions): Promise<Extensio
           const dateA = new Date(a.lastUpdated || 0);
           const dateB = new Date(b.lastUpdated || 0);
           return (dateA.getTime() - dateB.getTime()) * order;
+        case 'relevance':
+          // For relevance sorting, we'd typically use search score
+          // For now, default to stars as relevance proxy
+          return ((a.stars || 0) - (b.stars || 0)) * order;
         default:
           return 0;
       }
