@@ -1,4 +1,5 @@
 import { CACHE_DURATIONS } from '@/lib/api/constants';
+import crypto from 'crypto';
 
 // 캐시 항목 인터페이스
 interface CacheItem<T = any> {
@@ -306,7 +307,7 @@ export class ApiCache {
 
   // ETag 생성
   private generateETag(data: any): string {
-    const hash = require('crypto').createHash('md5');
+    const hash = crypto.createHash('md5');
     hash.update(JSON.stringify(data));
     return `"${hash.digest('hex')}"`;
   }

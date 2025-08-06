@@ -177,22 +177,6 @@ export function getExtensionCategories(): ExtensionCategory[] {
   return categories;
 }
 
-/**
- * Get extension statistics (overloaded for sitemap compatibility)
- */
-export function getExtensionStats(extensions: Extension[]) {
-  const totalExtensions = extensions.length;
-  const totalStars = extensions.reduce((sum, ext) => sum + (ext.stars || 0), 0);
-  const totalDownloads = extensions.reduce((sum, ext) => sum + (ext.downloads || 0), 0);
-  const categories = new Set(extensions.map(ext => ext.category)).size;
-  
-  return {
-    totalExtensions,
-    totalStars,
-    totalDownloads,
-    categories
-  };
-}
 
 /**
  * Cache utilities for server-side data

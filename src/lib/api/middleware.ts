@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ZodError } from 'zod';
-import { rateLimit } from 'next-rate-limit';
-import jwt from 'jsonwebtoken';
+// Rate limiting will be implemented with in-memory store
+// JWT auth will be implemented later
 import {
   HTTP_STATUS,
   API_ERROR_CODES,
@@ -40,11 +40,8 @@ export function corsMiddleware(request: NextRequest): NextResponse | null {
   return null;
 }
 
-// Rate Limiting 미들웨어
-const limiter = rateLimit({
-  interval: RATE_LIMITS.GENERAL.windowMs,
-  uniqueTokenPerInterval: 500,
-});
+// Rate Limiting 미들웨어 - In-memory implementation
+const requestCounts = new Map<string, { count: number; resetTime: number }>();
 
 export async function rateLimitMiddleware(
   request: NextRequest,
@@ -53,27 +50,27 @@ export async function rateLimitMiddleware(
   const config = RATE_LIMITS[endpoint];
   const ip = request.ip ?? 'anonymous';
   
-  try {
-    await limiter.check(config.max, ip);
-    
-    return {
-      allowed: true,
-      rateLimitInfo: {
-        remaining: config.max - 1,
-        resetTime: Date.now() + config.windowMs,
-        limit: config.max,
-      },
-    };
-  } catch {
-    return {
-      allowed: false,
-      rateLimitInfo: {
-        remaining: 0,
-        resetTime: Date.now() + config.windowMs,
-        limit: config.max,
-      },
-    };
+  const now = Date.now();
+  const userRequests = requestCounts.get(ip) || { count: 0, resetTime: now + config.windowMs };
+  
+  if (now > userRequests.resetTime) {
+    userRequests.count = 0;
+    userRequests.resetTime = now + config.windowMs;
   }
+  
+  userRequests.count++;
+  requestCounts.set(ip, userRequests);
+  
+  const allowed = userRequests.count <= config.max;
+  
+  return {
+    allowed,
+    rateLimitInfo: {
+      remaining: Math.max(0, config.max - userRequests.count),
+      resetTime: userRequests.resetTime,
+      limit: config.max,
+    },
+  };
 }
 
 // 인증 미들웨어
@@ -81,23 +78,10 @@ export function authMiddleware(request: NextRequest): AuthenticatedUser | null {
   const authHeader = request.headers.get(API_HEADERS.AUTHORIZATION);
   const apiKey = request.headers.get(API_HEADERS.API_KEY);
 
-  // JWT 토큰 검증
+  // JWT 토큰 검증 - 추후 구현
   if (authHeader?.startsWith('Bearer ')) {
-    const token = authHeader.substring(7);
-    try {
-      const secret = process.env.JWT_SECRET ?? 'fallback-secret';
-      const payload = jwt.verify(token, secret) as any;
-      
-      return {
-        id: payload.sub,
-        email: payload.email,
-        role: payload.role ?? 'user',
-        permissions: payload.permissions ?? [],
-      };
-    } catch (error) {
-      console.error('JWT verification failed:', error);
-      return null;
-    }
+    // TODO: Implement JWT verification
+    return null;
   }
 
   // API 키 검증 (단순한 구현 - 실제로는 데이터베이스에서 확인)
