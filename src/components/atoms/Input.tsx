@@ -3,7 +3,7 @@ import { cn } from '@/utils/classNames';
 
 export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   variant?: 'default' | 'search';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -11,7 +11,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const sizeClasses = {
       sm: 'h-8 px-3 text-sm',
       md: 'h-10 px-4 text-sm',
-      lg: 'h-14 px-6 text-base'
+      lg: 'h-14 px-6 text-base',
+      xl: 'h-16 px-8 text-xl'
     };
 
     const variantClasses = {

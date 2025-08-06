@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Extension, SearchState } from '@/types';
 import { searchExtensions, getSuggestions } from '@/utils/search';
 import { debounce } from '@/utils/debounce';
@@ -33,40 +33,74 @@ export const useSearch = ({
   });
 
   const [filteredExtensions, setFilteredExtensions] = useState<Extension[]>(extensions);
+  
+  // Flag to prevent showing suggestions after selection
+  const suppressSuggestionsRef = useRef(false);
+  
+  // Use refs to track values without causing re-renders
+  const currentQueryRef = useRef(searchState.query);
+  const currentExtensionsRef = useRef(extensions);
+  const currentSuggestionsRef = useRef(suggestions);
 
   // Debounced search function
   const debouncedSearch = useMemo(
-    () => debounce((query: string) => {
-      const results = searchExtensions(extensions, query);
+    () => debounce((query: string, exts: Extension[]) => {
+      const results = searchExtensions(exts, query);
       setFilteredExtensions(results);
       setSearchState(prev => ({ ...prev, isSearching: false }));
     }, debounceDelay),
-    [extensions, debounceDelay]
+    [debounceDelay]
   );
 
+  // Update refs when values change
   useEffect(() => {
-    if (searchState.query) {
-      setSearchState(prev => ({ ...prev, isSearching: true }));
-      debouncedSearch(searchState.query);
-      
-      const filteredSuggestions = getSuggestions(searchState.query, suggestions);
-      setSearchState(prev => ({
-        ...prev,
-        suggestions: filteredSuggestions,
-        showSuggestions: filteredSuggestions.length > 0
-      }));
-    } else {
-      setFilteredExtensions(extensions);
+    currentQueryRef.current = searchState.query;
+  }, [searchState.query]);
+
+  useEffect(() => {
+    currentExtensionsRef.current = extensions;
+  }, [extensions]);
+
+  useEffect(() => {
+    currentSuggestionsRef.current = suggestions;
+  }, [suggestions]);
+
+  // Handle search logic
+  useEffect(() => {
+    const query = currentQueryRef.current;
+    const exts = currentExtensionsRef.current;
+    const suggs = currentSuggestionsRef.current;
+    
+    if (!query) {
+      setFilteredExtensions(exts);
       setSearchState(prev => ({
         ...prev,
         suggestions: [],
         showSuggestions: false,
         isSearching: false
       }));
+    } else {
+      setSearchState(prev => ({ ...prev, isSearching: true }));
+      debouncedSearch(query, exts);
+      
+      // Only show suggestions if we're not suppressing them
+      setSearchState(prev => {
+        if (prev.showResults || suppressSuggestionsRef.current) {
+          return prev; // Don't update suggestions when results are showing or suppressed
+        }
+        
+        const filteredSuggestions = getSuggestions(query, suggs);
+        return {
+          ...prev,
+          suggestions: filteredSuggestions,
+          showSuggestions: filteredSuggestions.length > 0
+        };
+      });
     }
-  }, [searchState.query, extensions, suggestions, debouncedSearch]);
+  }, [searchState.query, debouncedSearch]);
 
   const handleSearchChange = useCallback((query: string) => {
+    suppressSuggestionsRef.current = false; // Reset suppression when search changes
     setSearchState(prev => ({
       ...prev,
       query,
@@ -75,11 +109,13 @@ export const useSearch = ({
   }, []);
 
   const handleSuggestionSelect = useCallback((suggestion: string) => {
+    suppressSuggestionsRef.current = true; // Suppress suggestions after selection
     setSearchState(prev => ({
       ...prev,
       query: suggestion,
       showSuggestions: false,
-      selectedSuggestionIndex: -1
+      selectedSuggestionIndex: -1,
+      suggestions: [] // Clear suggestions when one is selected
     }));
   }, []);
 
@@ -111,10 +147,12 @@ export const useSearch = ({
         if (selectedSuggestionIndex >= 0 && currentSuggestions[selectedSuggestionIndex]) {
           handleSuggestionSelect(currentSuggestions[selectedSuggestionIndex]!);
         }
+        suppressSuggestionsRef.current = true; // Suppress suggestions when showing results
         setSearchState(prev => ({
           ...prev,
           showResults: true,
-          showSuggestions: false
+          showSuggestions: false,
+          suggestions: [] // Clear suggestions when showing results
         }));
         break;
 

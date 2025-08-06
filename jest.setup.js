@@ -1,4 +1,8 @@
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
+import { toHaveNoViolations } from 'jest-axe';
+
+// Extend Jest matchers with axe-core accessibility testing
+expect.extend(toHaveNoViolations);
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -21,4 +25,30 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
+}
+
+// Mock PerformanceObserver for Web Vitals
+global.PerformanceObserver = jest.fn().mockImplementation((callback) => ({
+  observe: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+// Mock ResizeObserver
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));
+
+// Mock clipboard API
+Object.assign(navigator, {
+  clipboard: {
+    writeText: jest.fn(() => Promise.resolve()),
+    readText: jest.fn(() => Promise.resolve('')),
+  },
+});
+
+// Mock sendBeacon
+if (!global.navigator.sendBeacon) {
+  global.navigator.sendBeacon = jest.fn();
 }

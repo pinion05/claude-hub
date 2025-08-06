@@ -6,21 +6,18 @@ import { Header } from '@/components/organisms/Header';
 import { SearchSection } from '@/components/organisms/SearchSection';
 import { ExtensionGrid } from '@/components/organisms/ExtensionGrid';
 import { ExtensionModal } from '@/components/organisms/ExtensionModal';
-import { useSearch } from '@/hooks/useSearch';
+import { useAppStore } from '@/stores';
 import { useScrollSticky } from '@/hooks/useScrollSticky';
-import { useModal } from '@/hooks/useModal';
 
 export interface HomePageProps {
-  extensions: Extension[];
-  suggestions: string[];
+  // Props가 더 이상 필요하지 않음 - 스토어에서 관리
+  className?: string;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({
-  extensions,
-  suggestions
-}) => {
+export const HomePage: React.FC<HomePageProps> = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   
+  // 스토어에서 상태와 액션 직접 가져오기
   const {
     query,
     showSuggestions,
@@ -33,19 +30,30 @@ export const HomePage: React.FC<HomePageProps> = ({
     handleSuggestionSelect,
     handleKeyDown,
     handleShowResults,
-    resetSearch
-  } = useSearch({
-    extensions,
-    suggestions,
-    debounceDelay: 300
-  });
+    resetSearch,
+    selectedExtension,
+    modalOpen,
+    isSearchSticky,
+    setSelectedExtension,
+    setModalOpen,
+    setSearchSticky,
+    setSearchSectionHeight
+  } = useAppStore();
 
   const { isSticky, sectionHeight, sectionRef } = useScrollSticky({
     threshold: 200,
     enabled: !showResults
   });
 
-  const extensionModal = useModal<Extension>();
+  // 스티키 상태를 스토어에 동기화
+  React.useEffect(() => {
+    if (isSticky !== isSearchSticky) {
+      setSearchSticky(isSticky);
+    }
+    if (sectionHeight) {
+      setSearchSectionHeight(sectionHeight);
+    }
+  }, [isSticky, sectionHeight, isSearchSticky, setSearchSticky, setSearchSectionHeight]);
 
   const handleSuggestionClick = (suggestion: string) => {
     handleSuggestionSelect(suggestion);
@@ -61,6 +69,14 @@ export const HomePage: React.FC<HomePageProps> = ({
   const handleLogoClick = () => {
     resetSearch();
     searchInputRef.current?.focus();
+  };
+
+  const handleExtensionClick = (extension: Extension) => {
+    setSelectedExtension(extension);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -118,7 +134,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             
             <ExtensionGrid
               extensions={filteredExtensions}
-              onExtensionClick={extensionModal.open}
+              onExtensionClick={handleExtensionClick}
               isLoading={isSearching}
               searchQuery={query}
             />
@@ -140,7 +156,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             
             <ExtensionGrid
               extensions={filteredExtensions}
-              onExtensionClick={extensionModal.open}
+              onExtensionClick={handleExtensionClick}
               isLoading={isSearching}
               searchQuery={query}
             />
@@ -150,9 +166,9 @@ export const HomePage: React.FC<HomePageProps> = ({
       
       {/* Extension details modal */}
       <ExtensionModal
-        extension={extensionModal.data}
-        isOpen={extensionModal.isOpen}
-        onClose={extensionModal.close}
+        extension={selectedExtension}
+        isOpen={modalOpen}
+        onClose={handleModalClose}
       />
     </div>
   );
