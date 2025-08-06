@@ -3,6 +3,7 @@ import { Extension } from '@/types';
 import { Modal } from '@/components/molecules/Modal';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
+import { CategoryIcon } from '@/components/atoms/CategoryIcon';
 
 export interface ExtensionModalProps {
   extension: Extension | null;
@@ -20,7 +21,10 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="flex justify-between items-start mb-6">
-        <h2 className="text-2xl font-bold text-accent">{extension.name}</h2>
+        <div className="flex items-center gap-3">
+          <CategoryIcon category={extension.category} className="text-3xl" />
+          <h2 className="text-2xl font-bold text-accent">{extension.name}</h2>
+        </div>
         <button
           onClick={onClose}
           className="text-gray-500 hover:text-accent transition-colors text-2xl"

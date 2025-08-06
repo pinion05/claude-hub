@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { Extension } from '@/types';
 import { Badge } from '@/components/atoms/Badge';
+import { CategoryIcon } from '@/components/atoms/CategoryIcon';
 import { cn } from '@/utils/classNames';
 
 export interface ExtensionCardProps {
@@ -36,9 +37,14 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
     >
       <div className="flex flex-col h-full">
         <div className="flex-1">
-          <h3 className="text-lg font-semibold mb-2 text-accent line-clamp-1">
-            {extension.name}
-          </h3>
+          <div className="flex items-start gap-3 mb-3">
+            <CategoryIcon category={extension.category} className="text-2xl mt-1 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-accent line-clamp-1">
+                {extension.name}
+              </h3>
+            </div>
+          </div>
           <p className="text-sm text-gray-400 mb-4 line-clamp-2">
             {extension.description}
           </p>
