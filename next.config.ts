@@ -8,10 +8,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   experimental: {
@@ -116,15 +116,7 @@ const nextConfig: NextConfig = {
   // Page extensions for better code organization
   pageExtensions: ['ts', 'tsx', 'js', 'jsx'],
   
-  // TypeScript configuration
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-  
-  // ESLint configuration
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
+  // Remove duplicated typescript and eslint config (already defined above)
 
   // Security and caching headers
   headers: async () => [

@@ -29,12 +29,10 @@
  *         description: 확장 프로그램을 찾을 수 없음
  */
 
-import { NextRequest } from 'next/server';
 import { getExtensionById } from '@/lib/server/data';
 import { extensionIdSchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse } from '@/lib/api/middleware';
 import type { RequestContext } from '@/lib/api/types';
-import { API_ERROR_CODES } from '@/lib/api/constants';
 
 async function handleGetExtension(context: RequestContext) {
   const { params } = context;

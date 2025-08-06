@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Log the metric (in production, you might send to a analytics service)
-    console.log('Web Vital received:', {
+    console.error('Web Vital received:', {
       name: metric.name,
       value: metric.value,
       rating: metric.rating,
@@ -175,7 +175,7 @@ async function storeMetric(metric: WebVitalMetric): Promise<void> {
   
   // For development, just log
   if (process.env.NODE_ENV === 'development') {
-    console.log('Would store metric:', metricData);
+    console.error('Would store metric:', metricData);
   }
 }
 

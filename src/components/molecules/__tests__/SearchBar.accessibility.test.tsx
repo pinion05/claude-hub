@@ -363,7 +363,7 @@ describe('SearchBar Accessibility', () => {
       // Should have minimal violations
       expect(report.violations.length).toBeLessThan(3);
 
-      console.log('SearchBar Accessibility Report:', {
+      console.error('SearchBar Accessibility Report:', {
         score: report.score,
         violations: report.violations.length,
         focusableElements: report.focusableElementCount,

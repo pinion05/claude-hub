@@ -60,18 +60,16 @@
  *                   $ref: '#/components/schemas/ResponseMeta'
  */
 
-import { NextRequest } from 'next/server';
 import { 
   getAllExtensions, 
   getExtensionsByCategory, 
-  filterExtensions,
-  getExtensionStats 
+  filterExtensions
 } from '@/lib/server/data';
 import { searchQuerySchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse, createPaginationMeta } from '@/lib/api/middleware';
 import type { RequestContext } from '@/lib/api/types';
 
-async function handleGetExtensions(context: RequestContext) {
+async function handleGetExtensions(_context: RequestContext) {
   const { req } = context;
   const { searchParams } = new URL(req.url);
   

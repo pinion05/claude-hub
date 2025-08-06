@@ -20,7 +20,7 @@ export function WebVitalsMonitor({ debug = false, showUI = false }: WebVitalsMon
     // Initialize monitoring
     webVitalsMonitor.onMetrics((metrics) => {
       if (debug) {
-        console.log('Web Vitals collected:', metrics);
+        console.error('Web Vitals collected:', metrics);
       }
     });
 
@@ -38,12 +38,12 @@ export function WebVitalsMonitor({ debug = false, showUI = false }: WebVitalsMon
                      score >= 75 ? 'Good' : 
                      score >= 50 ? 'Needs Improvement' : 'Poor';
       
-      console.log(`Performance Score: ${score}/100 (${feedback})`);
+      console.error(`Performance Score: ${score}/100 (${feedback})`);
       
       Object.entries(metrics).forEach(([name, value]) => {
         if (typeof value === 'number') {
           const rating = getRating(name, value);
-          console.log(`${name}: ${value} (${rating})`);
+          console.error(`${name}: ${value} (${rating})`);
         }
       });
     }

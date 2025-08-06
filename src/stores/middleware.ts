@@ -15,9 +15,9 @@ export const logger: Logger = (f, name) => (set, get, store) => {
   const loggedSet: typeof set = (...a) => {
     if (process.env.NODE_ENV === 'development') {
       console.group(`🏪 ${name || 'Store'} Update`);
-      console.log('Previous State:', get());
+      console.error('Previous State:', get());
       set(...a);
-      console.log('New State:', get());
+      console.error('New State:', get());
       console.groupEnd();
     } else {
       set(...a);

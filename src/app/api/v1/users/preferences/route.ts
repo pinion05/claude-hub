@@ -24,7 +24,6 @@
  *         description: 인증 필요
  */
 
-import { NextRequest } from 'next/server';
 import { userPreferencesSchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse } from '@/lib/api/middleware';
 import type { RequestContext, UserPreferences } from '@/lib/api/types';

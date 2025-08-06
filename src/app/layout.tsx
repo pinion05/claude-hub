@@ -144,7 +144,7 @@ export default function RootLayout({
                   window.addEventListener('load', () => {
                     setTimeout(() => {
                       const perfData = performance.getEntriesByType('navigation')[0];
-                      console.log('Page load time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
+                      console.error('Page load time:', perfData.loadEventEnd - perfData.fetchStart, 'ms');
                     }, 0);
                   });
                 }

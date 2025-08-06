@@ -129,7 +129,7 @@ export class MemoryCache {
     });
     
     if (keysToDelete.length > 0) {
-      console.log(`캐시 정리: ${keysToDelete.length}개 항목 삭제`);
+      console.error(`캐시 정리: ${keysToDelete.length}개 항목 삭제`);
     }
   }
 
@@ -336,7 +336,7 @@ export function getApiCache(): ApiCache {
 
 // 캐시 워밍업 함수들
 export async function warmupCache() {
-  console.log('캐시 워밍업 시작...');
+  console.error('캐시 워밍업 시작...');
   
   try {
     const { getAllExtensions, getExtensionStats } = await import('@/lib/server/data');
@@ -350,7 +350,7 @@ export async function warmupCache() {
     const stats = await getExtensionStats();
     apiCache.cacheStats(stats);
     
-    console.log('캐시 워밍업 완료');
+    console.error('캐시 워밍업 완료');
   } catch (error) {
     console.error('캐시 워밍업 실패:', error);
   }

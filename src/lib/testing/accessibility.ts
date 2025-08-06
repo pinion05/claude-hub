@@ -175,7 +175,7 @@ export function testAriaAttributes(
     
     if (targetElement) {
       for (const [attr, expectedValue] of Object.entries(expectation.attributes)) {
-        const actualValue = targetElement.getAttribute(attr);
+        const _actualValue = targetElement.getAttribute(attr);
         
         if (typeof expectedValue === 'boolean') {
           if (expectedValue) {

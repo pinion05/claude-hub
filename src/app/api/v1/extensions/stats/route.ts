@@ -42,7 +42,6 @@
  *                   $ref: '#/components/schemas/ExtensionStats'
  */
 
-import { NextRequest } from 'next/server';
 import { getExtensionStats, getAllExtensions, getExtensionsByCategory } from '@/lib/server/data';
 import { statsQuerySchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse } from '@/lib/api/middleware';
@@ -59,7 +58,7 @@ async function handleGetStats(context: RequestContext) {
   );
 
   // 기본 통계 조회
-  const baseStats = await getExtensionStats();
+  const _baseStats = await getExtensionStats();
   const allExtensions = await getAllExtensions();
 
   // 카테고리별 통계 계산

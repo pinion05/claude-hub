@@ -36,7 +36,6 @@
  *         description: 인증 필요
  */
 
-import { NextRequest } from 'next/server';
 import { paginationSchema } from '@/lib/api/schemas';
 import { withMiddleware, createSuccessResponse, createPaginationMeta } from '@/lib/api/middleware';
 import type { RequestContext, Bookmark } from '@/lib/api/types';

@@ -84,7 +84,7 @@ export function useWebWorkerSearch(extensions: Extension[]): UseWebWorkerSearchR
               break;
               
             case 'WORKER_READY':
-              console.log('Search worker is ready');
+              console.error('Search worker is ready');
               break;
           }
         };

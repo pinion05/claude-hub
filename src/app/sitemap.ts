@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fetch data for dynamic sitemap generation
     const extensions = await getExtensions();
     const categories = getExtensionCategories();
-    const stats = getExtensionStats(extensions);
+    const _stats = getExtensionStats(extensions);
 
     const routes: MetadataRoute.Sitemap = [
       // Main pages

@@ -137,8 +137,8 @@ class WebVitalsMonitor {
           console.warn('Failed to send web vitals:', error);
         });
       }
-    } catch (error) {
-      console.warn('Error reporting web vitals:', error);
+    } catch (_error) {
+      console.warn('Error reporting web vitals:', _error);
     }
   }
 
@@ -274,7 +274,7 @@ export class PerformanceObserver {
       
       observer.observe({ entryTypes: ['longtask'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('Long task observer not supported');
     }
   }
@@ -298,7 +298,7 @@ export class PerformanceObserver {
       
       observer.observe({ entryTypes: ['resource'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('Resource observer not supported');
     }
   }
@@ -320,13 +320,13 @@ export class PerformanceObserver {
             load: navEntry.loadEventEnd - navEntry.navigationStart
           };
           
-          console.log('Navigation metrics:', metrics);
+          console.error('Navigation metrics:', metrics);
         });
       });
       
       observer.observe({ entryTypes: ['navigation'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('Navigation observer not supported');
     }
   }
@@ -348,7 +348,7 @@ export class PerformanceObserver {
       
       observer.observe({ entryTypes: ['layout-shift'] });
       this.observers.push(observer);
-    } catch (error) {
+    } catch (_error) {
       console.warn('Layout shift observer not supported');
     }
   }

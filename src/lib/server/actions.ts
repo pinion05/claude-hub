@@ -150,7 +150,7 @@ export async function toggleFavorite(extensionId: number) {
 export async function trackSearch(query: string, resultCount: number) {
   try {
     // This would log search analytics to a service
-    console.log(`Search tracked: "${query}" - ${resultCount} results`);
+    console.error(`Search tracked: "${query}" - ${resultCount} results`);
     
     return { tracked: true };
   } catch (error) {

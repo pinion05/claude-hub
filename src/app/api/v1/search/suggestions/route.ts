@@ -45,7 +45,6 @@
  *                       type: integer
  */
 
-import { NextRequest } from 'next/server';
 import { getSearchSuggestions, getFilteredSuggestions, getAllExtensions } from '@/lib/server/data';
 import { withMiddleware, createSuccessResponse } from '@/lib/api/middleware';
 import type { RequestContext } from '@/lib/api/types';

@@ -21,7 +21,9 @@
     "perf:audit": "lighthouse http://localhost:3000 --output json --output html --output-path ./performance",
     "perf:build-stats": "npx next build --debug",
     "perf:bundle-analyze": "npm run build && npx @next/bundle-analyzer",
-    "benchmark": "node scripts/performance-benchmark.js"
+    "benchmark": "node scripts/performance-benchmark.js",
+    "vercel-build": "npm run build",
+    "postinstall": "echo 'Installation complete'"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
