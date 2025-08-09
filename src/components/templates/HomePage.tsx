@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useRef } from 'react';
-import { Extension } from '@/types';
+import React, { useRef, useState, useMemo } from 'react';
+import { Extension, ExtensionCategory } from '@/types';
 import { Header } from '@/components/organisms/Header';
 import { SearchSection } from '@/components/organisms/SearchSection';
 import { ExtensionGrid } from '@/components/organisms/ExtensionGrid';
 import { ExtensionModal } from '@/components/organisms/ExtensionModal';
+import { CategoryFilter } from '@/components/molecules/CategoryFilter';
 import { useSearch } from '@/hooks/useSearch';
 import { useScrollSticky } from '@/hooks/useScrollSticky';
 import { useModal } from '@/hooks/useModal';
@@ -20,6 +21,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   suggestions
 }) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [selectedCategory, setSelectedCategory] = useState<ExtensionCategory | 'all'>('all');
   
   const {
     query,
@@ -46,6 +48,29 @@ export const HomePage: React.FC<HomePageProps> = ({
   });
 
   const extensionModal = useModal<Extension>();
+
+  // Get unique categories from extensions
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(extensions.map(ext => ext.category));
+    return Array.from(uniqueCategories).sort();
+  }, [extensions]);
+
+  // Count extensions per category
+  const categoryExtensionCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    extensions.forEach(ext => {
+      counts[ext.category] = (counts[ext.category] || 0) + 1;
+    });
+    return counts;
+  }, [extensions]);
+
+  // Apply category filter to search results
+  const categoryFilteredExtensions = useMemo(() => {
+    if (selectedCategory === 'all') {
+      return filteredExtensions;
+    }
+    return filteredExtensions.filter(ext => ext.category === selectedCategory);
+  }, [filteredExtensions, selectedCategory]);
 
   const handleSuggestionClick = (suggestion: string) => {
     handleSuggestionSelect(suggestion);
@@ -110,14 +135,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               <h2 className="text-3xl font-bold mb-2">All Extensions</h2>
               <p className="text-gray-400">
                 {query ? 
-                  `${filteredExtensions.length} results for "${query}"` : 
-                  `${filteredExtensions.length} extensions available`
+                  `${categoryFilteredExtensions.length} results for "${query}"` : 
+                  `${categoryFilteredExtensions.length} extensions available`
                 }
               </p>
             </div>
             
             <ExtensionGrid
-              extensions={filteredExtensions}
+              extensions={categoryFilteredExtensions}
               onExtensionClick={extensionModal.open}
               isLoading={isSearching}
               searchQuery={query}
@@ -128,18 +153,25 @@ export const HomePage: React.FC<HomePageProps> = ({
         /* Results view */
         <main className="pt-24 pb-12 animate-[fadeIn_0.3s_ease-out]">
           <div className="max-w-6xl mx-auto px-6">
+            {/* Category Filter */}
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={categories as ExtensionCategory[]}
+              extensionCounts={categoryExtensionCounts}
+            />
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2">All Extensions</h2>
               <p className="text-gray-400">
                 {query ? 
-                  `${filteredExtensions.length} results for "${query}"` : 
-                  `${filteredExtensions.length} extensions available`
+                  `${categoryFilteredExtensions.length} results for "${query}"` : 
+                  `${categoryFilteredExtensions.length} extensions available`
                 }
               </p>
             </div>
             
             <ExtensionGrid
-              extensions={filteredExtensions}
+              extensions={categoryFilteredExtensions}
               onExtensionClick={extensionModal.open}
               isLoading={isSearching}
               searchQuery={query}
