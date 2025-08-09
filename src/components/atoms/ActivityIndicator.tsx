@@ -17,62 +17,75 @@ export function ActivityIndicator({
   showDetails = false,
   className = ''
 }: ActivityIndicatorProps) {
-  const getBarColor = (barIndex: number): string => {
-    const levelMap = {
-      'very-active': 5,
-      'active': 4,
-      'moderate': 3,
-      'low': 2,
-      'inactive': 1
+  // Define how many bars should be filled for each activity level
+  const ACTIVITY_CONFIG = {
+    'very-active': {
+      filledBars: 5,
+      color: 'bg-green-500',
+      label: 'Very Active',
+      pulse: true
+    },
+    'active': {
+      filledBars: 5,  // Changed from 4 to 5 - active now fills all bars
+      color: 'bg-green-400',
+      label: 'Active',
+      pulse: true
+    },
+    'moderate': {
+      filledBars: 3,
+      color: 'bg-yellow-400',
+      label: 'Moderate',
+      pulse: false
+    },
+    'low': {
+      filledBars: 2,
+      color: 'bg-orange-400',
+      label: 'Low Activity',
+      pulse: false
+    },
+    'inactive': {
+      filledBars: 1,
+      color: 'bg-gray-500',
+      label: 'Inactive',
+      pulse: false
+    }
+  };
+
+  const config = ACTIVITY_CONFIG[level];
+
+  const getBarStyles = (barIndex: number) => {
+    const isFilled = barIndex <= config.filledBars;
+    const shouldAnimate = config.pulse && isFilled;
+    
+    return {
+      className: `
+        w-1 transition-all duration-300
+        ${isFilled ? config.color : 'bg-gray-700'}
+        ${shouldAnimate ? 'animate-pulse' : ''}
+      `,
+      height: `${4 + barIndex * 3}px`
     };
-    
-    const activeLevel = levelMap[level];
-    
-    if (barIndex <= activeLevel) {
-      if (level === 'very-active') return 'bg-green-500';
-      if (level === 'active') return 'bg-green-400';
-      if (level === 'moderate') return 'bg-yellow-400';
-      if (level === 'low') return 'bg-orange-400';
-      return 'bg-gray-600';
-    }
-    
-    return 'bg-gray-700';
   };
-
-  const getActivityLabel = (): string => {
-    switch (level) {
-      case 'very-active': return 'Very Active';
-      case 'active': return 'Active';
-      case 'moderate': return 'Moderate';
-      case 'low': return 'Low Activity';
-      case 'inactive': return 'Inactive';
-      default: return 'Unknown';
-    }
-  };
-
-  const shouldPulse = level === 'very-active' || level === 'active';
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <div className="flex items-end gap-0.5">
-        {[1, 2, 3, 4, 5].map((barIndex) => (
-          <div
-            key={barIndex}
-            className={`
-              w-1 transition-all duration-300
-              ${getBarColor(barIndex)}
-              ${shouldPulse && barIndex <= (level === 'very-active' ? 5 : 4) ? 'animate-pulse' : ''}
-            `}
-            style={{
-              height: `${4 + barIndex * 3}px`
-            }}
-          />
-        ))}
+        {[1, 2, 3, 4, 5].map((barIndex) => {
+          const styles = getBarStyles(barIndex);
+          return (
+            <div
+              key={barIndex}
+              className={styles.className}
+              style={{ height: styles.height }}
+              aria-hidden="true"
+            />
+          );
+        })}
       </div>
       
       {showDetails && (
         <div className="text-xs">
-          <div className="text-gray-400">{getActivityLabel()}</div>
+          <div className="text-gray-400">{config.label}</div>
           {(commitsLastMonth !== undefined || commitsLastWeek !== undefined) && (
             <div className="text-gray-500 mt-0.5">
               {commitsLastMonth !== undefined && commitsLastMonth > 0 ? (
