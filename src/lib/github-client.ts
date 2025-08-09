@@ -50,6 +50,12 @@ export interface GitHubRepoDetails extends GitHubRepo {
   releases?: GitHubRelease[];
   contributors?: GitHubContributor[];
   readme?: string;
+  commitActivity?: {
+    lastCommit?: string;
+    commitsLastMonth?: number;
+    commitsLastWeek?: number;
+    activityLevel?: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
+  };
 }
 
 class GitHubClientAPI {
@@ -154,6 +160,18 @@ class GitHubClientAPI {
     }
   }
 
+  async getCommitActivity(owner: string, repo: string): Promise<{ total: number; weeks: Array<{ w: number; c: number }> }> {
+    try {
+      const stats = await this.fetchAPI(
+        `repos/${owner}/${repo}/stats/commit_activity`,
+        CACHE_TTL.REPOSITORY
+      );
+      return stats || { total: 0, weeks: [] };
+    } catch {
+      return { total: 0, weeks: [] };
+    }
+  }
+
   async getFullRepositoryDetails(repoUrl: string): Promise<GitHubRepoDetails> {
     const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!match) {
@@ -161,16 +179,35 @@ class GitHubClientAPI {
     }
     const [, owner, repo] = match;
 
-    const [repoData, releases, contributors] = await Promise.all([
+    const [repoData, releases, contributors, commitActivity] = await Promise.all([
       this.getRepository(owner!, repo!),
       this.getReleases(owner!, repo!),
       this.getContributors(owner!, repo!),
+      this.getCommitActivity(owner!, repo!),
     ]);
+
+    // Calculate activity level based on recent commits
+    const lastFourWeeks = commitActivity.weeks?.slice(-4) || [];
+    const commitsLastMonth = lastFourWeeks.reduce((sum, week) => sum + (week.c || 0), 0);
+    const commitsLastWeek = lastFourWeeks[lastFourWeeks.length - 1]?.c || 0;
+    
+    let activityLevel: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
+    if (commitsLastMonth >= 50) activityLevel = 'very-active';
+    else if (commitsLastMonth >= 20) activityLevel = 'active';
+    else if (commitsLastMonth >= 10) activityLevel = 'moderate';
+    else if (commitsLastMonth >= 1) activityLevel = 'low';
+    else activityLevel = 'inactive';
 
     return {
       ...repoData,
       releases,
       contributors,
+      commitActivity: {
+        lastCommit: repoData.pushed_at,
+        commitsLastMonth,
+        commitsLastWeek,
+        activityLevel,
+      },
     };
   }
 
