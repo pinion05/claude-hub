@@ -80,12 +80,17 @@ export async function retrieveKey(): Promise<CryptoKey | null> {
     const db = await openDB();
     const transaction = db.transaction(['keys'], 'readonly');
     const store = transaction.objectStore('keys');
-    const exportedKey = await store.get('encryption-key');
+    const request = store.get('encryption-key');
+    
+    const exportedKey = await new Promise<any>((resolve) => {
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => resolve(null);
+    });
     
     if (!exportedKey) return null;
     
     return await crypto.subtle.importKey(
-      'jwk',
+      'jwk' as any,
       exportedKey,
       {
         name: 'AES-GCM',
