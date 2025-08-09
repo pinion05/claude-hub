@@ -132,14 +132,6 @@ export const HomePage: React.FC<HomePageProps> = ({
           
           {/* Initial extension grid */}
           <div className="max-w-6xl mx-auto px-6 pb-12">
-            {/* Category Filter for initial view */}
-            <CategoryFilter
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              categories={categories as ExtensionCategory[]}
-              extensionCounts={categoryExtensionCounts}
-            />
-            
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2">
                 {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
@@ -151,6 +143,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 }
               </p>
             </div>
+            
+            {/* Category Filter for initial view */}
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={categories as ExtensionCategory[]}
+              extensionCounts={categoryExtensionCounts}
+            />
             
             <ExtensionGrid
               extensions={categoryFilteredExtensions}
@@ -164,13 +164,6 @@ export const HomePage: React.FC<HomePageProps> = ({
         /* Results view */
         <main className="pt-24 pb-12 animate-[fadeIn_0.3s_ease-out]">
           <div className="max-w-6xl mx-auto px-6">
-            {/* Category Filter */}
-            <CategoryFilter
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              categories={categories as ExtensionCategory[]}
-              extensionCounts={categoryExtensionCounts}
-            />
             <div className="mb-8">
               <h2 className="text-3xl font-bold mb-2">
                 {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
@@ -182,6 +175,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 }
               </p>
             </div>
+            
+            {/* Category Filter */}
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={categories as ExtensionCategory[]}
+              extensionCounts={categoryExtensionCounts}
+            />
             
             <ExtensionGrid
               extensions={categoryFilteredExtensions}
