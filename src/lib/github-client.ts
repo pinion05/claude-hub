@@ -71,13 +71,13 @@ class GitHubClientAPI {
       throw new Error('Invalid GitHub URL');
     }
     const [, owner, repo] = match;
-    return this.getRepository(owner, repo);
+    return this.getRepository(owner!, repo!);
   }
 
   async getLatestRelease(owner: string, repo: string): Promise<GitHubRelease | null> {
     try {
       return await this.fetchAPI(`repos/${owner}/${repo}/releases/latest`);
-    } catch (error) {
+    } catch {
       // No releases found
       return null;
     }
@@ -87,7 +87,7 @@ class GitHubClientAPI {
     try {
       const releases = await this.fetchAPI(`repos/${owner}/${repo}/releases?per_page=${limit}`);
       return releases || [];
-    } catch (error) {
+    } catch {
       return [];
     }
   }
@@ -96,7 +96,7 @@ class GitHubClientAPI {
     try {
       const contributors = await this.fetchAPI(`repos/${owner}/${repo}/contributors?per_page=${limit}`);
       return contributors || [];
-    } catch (error) {
+    } catch {
       return [];
     }
   }
@@ -105,7 +105,7 @@ class GitHubClientAPI {
     try {
       const response = await this.fetchAPI(`repos/${owner}/${repo}/readme`);
       return response.content || null;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -118,9 +118,9 @@ class GitHubClientAPI {
     const [, owner, repo] = match;
 
     const [repoData, releases, contributors] = await Promise.all([
-      this.getRepository(owner, repo),
-      this.getReleases(owner, repo, 3),
-      this.getContributors(owner, repo, 5),
+      this.getRepository(owner!, repo!),
+      this.getReleases(owner!, repo!, 3),
+      this.getContributors(owner!, repo!, 5),
     ]);
 
     return {

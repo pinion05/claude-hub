@@ -54,9 +54,9 @@ class GitHubClient {
   }
 
   private async fetchWithAuth(url: string, options: RequestInit = {}) {
-    const headers: HeadersInit = {
+    const headers: Record<string, string> = {
       'Accept': 'application/vnd.github.v3+json',
-      ...options.headers,
+      ...(options.headers as Record<string, string> || {}),
     };
 
     if (this.token && this.token !== 'YOUR_GITHUB_TOKEN_HERE') {
@@ -92,14 +92,14 @@ class GitHubClient {
       throw new Error('Invalid GitHub URL');
     }
     const [, owner, repo] = match;
-    return this.getRepository(owner, repo);
+    return this.getRepository(owner!, repo!);
   }
 
   async getLatestRelease(owner: string, repo: string): Promise<GitHubRelease | null> {
     try {
       const url = `${this.apiUrl}/repos/${owner}/${repo}/releases/latest`;
       return await this.fetchWithAuth(url);
-    } catch (error) {
+    } catch {
       // No releases found
       return null;
     }
@@ -109,7 +109,7 @@ class GitHubClient {
     try {
       const url = `${this.apiUrl}/repos/${owner}/${repo}/releases?per_page=${limit}`;
       return await this.fetchWithAuth(url);
-    } catch (error) {
+    } catch {
       return [];
     }
   }
@@ -118,7 +118,7 @@ class GitHubClient {
     try {
       const url = `${this.apiUrl}/repos/${owner}/${repo}/contributors?per_page=${limit}`;
       return await this.fetchWithAuth(url);
-    } catch (error) {
+    } catch {
       return [];
     }
   }
@@ -140,7 +140,7 @@ class GitHubClient {
       }
 
       return response.text();
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -153,9 +153,9 @@ class GitHubClient {
     const [, owner, repo] = match;
 
     const [repoData, releases, contributors] = await Promise.all([
-      this.getRepository(owner, repo),
-      this.getReleases(owner, repo, 3),
-      this.getContributors(owner, repo, 5),
+      this.getRepository(owner!, repo!),
+      this.getReleases(owner!, repo!, 3),
+      this.getContributors(owner!, repo!, 5),
     ]);
 
     return {

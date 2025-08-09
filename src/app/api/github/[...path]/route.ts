@@ -4,10 +4,11 @@ const GITHUB_API_URL = 'https://api.github.com';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // NEXT_PUBLIC_ 없음 - 서버에서만 접근 가능
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { path: string[] } }
+  _request: NextRequest,
+  context: { params: Promise<{ path: string[] }> }
 ) {
   try {
+    const params = await context.params;
     const path = params.path.join('/');
     const url = `${GITHUB_API_URL}/${path}`;
     

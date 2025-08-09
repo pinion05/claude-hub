@@ -1,8 +1,7 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Extension } from '@/types';
 import { Badge } from '@/components/atoms/Badge';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
-import { Skeleton } from '@/components/atoms/Skeleton';
 import { cn } from '@/utils/classNames';
 import { useGitHubRepoBasic } from '@/hooks/useGitHubRepo';
 import { categoryLabels } from '@/data/extensions';
@@ -102,7 +101,7 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
           {/* Topics/Tags */}
           {(repoData?.topics?.length || extension.tags?.length) ? (
             <div className="flex flex-wrap gap-1 mb-3">
-              {(repoData?.topics || extension.tags || []).slice(0, 3).map((tag, i) => (
+              {(repoData?.topics || extension.tags || []).slice(0, 3).map((tag: string, i: number) => (
                 <span key={i} className="text-xs text-gray-500 px-1.5 py-0.5 bg-gray-900 rounded">
                   #{tag}
                 </span>
