@@ -97,7 +97,7 @@ export function useGitHubRepoBasic(
     setError(null);
 
     try {
-      const repoData = await githubClient.getRepositoryFromUrl(repoUrl);
+      const repoData = await githubClient.getRepositoryWithActivity(repoUrl);
       setData(repoData);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch repository'));

@@ -115,6 +115,62 @@ class GitHubClientAPI {
     return this.getRepository(owner!, repo!);
   }
 
+  async getRepositoryWithActivity(repoUrl: string): Promise<GitHubRepo & { commitActivity?: GitHubRepoDetails['commitActivity'] }> {
+    const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+    if (!match) {
+      throw new GitHubAPIError('Invalid GitHub URL', 400, { url: repoUrl });
+    }
+    const [, owner, repo] = match;
+
+    const [repoData, commitActivity] = await Promise.all([
+      this.getRepository(owner!, repo!),
+      this.getCommitActivity(owner!, repo!),
+    ]);
+
+    // Calculate activity level based on recent commits or fallback to push date
+    let commitsLastMonth = 0;
+    let commitsLastWeek = 0;
+    let activityLevel: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
+    
+    if (commitActivity && commitActivity.weeks && commitActivity.weeks.length > 0) {
+      // Use actual commit stats if available
+      const lastFourWeeks = commitActivity.weeks.slice(-4);
+      commitsLastMonth = lastFourWeeks.reduce((sum, week) => sum + (week.c || 0), 0);
+      commitsLastWeek = lastFourWeeks[lastFourWeeks.length - 1]?.c || 0;
+      
+      if (commitsLastMonth >= 50) activityLevel = 'very-active';
+      else if (commitsLastMonth >= 20) activityLevel = 'active';
+      else if (commitsLastMonth >= 10) activityLevel = 'moderate';
+      else if (commitsLastMonth >= 1) activityLevel = 'low';
+      else activityLevel = 'inactive';
+    } else {
+      // Fallback to pushed_at date when commit stats are unavailable
+      const lastPushDate = new Date(repoData.pushed_at);
+      const daysSinceLastPush = Math.floor((Date.now() - lastPushDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      // Estimate activity level based on last push
+      if (daysSinceLastPush <= 7) {
+        activityLevel = 'active'; // Pushed within last week
+      } else if (daysSinceLastPush <= 30) {
+        activityLevel = 'moderate'; // Pushed within last month
+      } else if (daysSinceLastPush <= 90) {
+        activityLevel = 'low'; // Pushed within last 3 months
+      } else {
+        activityLevel = 'inactive'; // No push for over 3 months
+      }
+    }
+
+    return {
+      ...repoData,
+      commitActivity: {
+        lastCommit: repoData.pushed_at,
+        commitsLastMonth,
+        commitsLastWeek,
+        activityLevel,
+      },
+    };
+  }
+
   async getLatestRelease(owner: string, repo: string): Promise<GitHubRelease | null> {
     try {
       return await this.fetchAPI(`repos/${owner}/${repo}/releases/latest`, CACHE_TTL.RELEASES);

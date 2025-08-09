@@ -25,8 +25,9 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
   const displayDescription = repoData?.description || extension.description;
   const lastUpdated = repoData?.pushed_at ? new Date(repoData.pushed_at).toLocaleDateString() : extension.lastUpdated;
   
-  // Use extension commitActivity if available, otherwise show as loading/unknown
-  const activityLevel = extension.commitActivity?.activityLevel || 'inactive';
+  // Use fresh commitActivity from client-side fetch, fallback to server-side data
+  const commitActivity = (repoData as any)?.commitActivity || extension.commitActivity;
+  const activityLevel = commitActivity?.activityLevel || 'inactive';
 
   return (
     <article
@@ -122,8 +123,8 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
           <div className="flex items-center gap-3 text-xs text-gray-500 min-w-0">
             <ActivityIndicator 
               level={activityLevel}
-              commitsLastMonth={extension.commitActivity?.commitsLastMonth}
-              commitsLastWeek={extension.commitActivity?.commitsLastWeek}
+              commitsLastMonth={commitActivity?.commitsLastMonth}
+              commitsLastWeek={commitActivity?.commitsLastWeek}
               showDetails={false}
             />
             {displayStars && (
