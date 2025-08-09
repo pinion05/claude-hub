@@ -4,6 +4,7 @@ import { Modal } from '@/components/molecules/Modal';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
+import { ActivityIndicator } from '@/components/atoms/ActivityIndicator';
 import { useGitHubRepo } from '@/hooks/useGitHubRepo';
 import { categoryLabels } from '@/data/categories';
 import { Skeleton } from '@/components/atoms/Skeleton';
@@ -69,6 +70,15 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
         <Badge variant="accent">
           {categoryLabels[extension.category] || extension.category}
         </Badge>
+        
+        {repoData?.commitActivity && (
+          <ActivityIndicator
+            level={repoData.commitActivity.activityLevel}
+            commitsLastMonth={repoData.commitActivity.commitsLastMonth}
+            commitsLastWeek={repoData.commitActivity.commitsLastWeek}
+            showDetails={true}
+          />
+        )}
         
         {displayStars && (
           <div className="flex items-center gap-2 text-sm text-gray-400">

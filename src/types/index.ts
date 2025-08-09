@@ -13,6 +13,14 @@ export interface Extension {
   version?: string;
   highlights?: string[];
   rank?: number;
+  commitActivity?: CommitActivity;
+}
+
+export interface CommitActivity {
+  lastCommit?: string;
+  commitsLastMonth?: number;
+  commitsLastWeek?: number;
+  activityLevel?: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
 }
 
 export type ExtensionCategory = 
