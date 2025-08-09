@@ -75,14 +75,18 @@ export function ActivityIndicator({
           <div className="text-gray-400">{getActivityLabel()}</div>
           {(commitsLastMonth !== undefined || commitsLastWeek !== undefined) && (
             <div className="text-gray-500 mt-0.5">
-              {commitsLastMonth !== undefined && (
-                <span>{commitsLastMonth} commits/month</span>
-              )}
-              {commitsLastMonth !== undefined && commitsLastWeek !== undefined && (
-                <span className="mx-1">•</span>
-              )}
-              {commitsLastWeek !== undefined && (
-                <span>{commitsLastWeek} this week</span>
+              {commitsLastMonth !== undefined && commitsLastMonth > 0 ? (
+                <>
+                  <span>{commitsLastMonth} commits/month</span>
+                  {commitsLastWeek !== undefined && commitsLastWeek > 0 && (
+                    <>
+                      <span className="mx-1">•</span>
+                      <span>{commitsLastWeek} this week</span>
+                    </>
+                  )}
+                </>
+              ) : (
+                <span className="text-xs italic">Based on push activity</span>
               )}
             </div>
           )}

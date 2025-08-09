@@ -160,15 +160,23 @@ class GitHubClientAPI {
     }
   }
 
-  async getCommitActivity(owner: string, repo: string): Promise<{ total: number; weeks: Array<{ w: number; c: number }> }> {
+  async getCommitActivity(owner: string, repo: string): Promise<{ total: number; weeks: Array<{ w: number; c: number }> } | null> {
     try {
       const stats = await this.fetchAPI(
         `repos/${owner}/${repo}/stats/commit_activity`,
         CACHE_TTL.REPOSITORY
       );
-      return stats || { total: 0, weeks: [] };
+      
+      // GitHub API returns 202 when stats are being computed
+      // In this case, stats might be null or empty array
+      if (!stats || (Array.isArray(stats) && stats.length === 0)) {
+        return null;
+      }
+      
+      return stats;
     } catch {
-      return { total: 0, weeks: [] };
+      // Return null to indicate failure, not empty data
+      return null;
     }
   }
 
@@ -186,17 +194,41 @@ class GitHubClientAPI {
       this.getCommitActivity(owner!, repo!),
     ]);
 
-    // Calculate activity level based on recent commits
-    const lastFourWeeks = commitActivity.weeks?.slice(-4) || [];
-    const commitsLastMonth = lastFourWeeks.reduce((sum, week) => sum + (week.c || 0), 0);
-    const commitsLastWeek = lastFourWeeks[lastFourWeeks.length - 1]?.c || 0;
-    
+    // Calculate activity level based on recent commits or fallback to push date
+    let commitsLastMonth = 0;
+    let commitsLastWeek = 0;
     let activityLevel: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
-    if (commitsLastMonth >= 50) activityLevel = 'very-active';
-    else if (commitsLastMonth >= 20) activityLevel = 'active';
-    else if (commitsLastMonth >= 10) activityLevel = 'moderate';
-    else if (commitsLastMonth >= 1) activityLevel = 'low';
-    else activityLevel = 'inactive';
+    
+    if (commitActivity && commitActivity.weeks && commitActivity.weeks.length > 0) {
+      // Use actual commit stats if available
+      const lastFourWeeks = commitActivity.weeks.slice(-4);
+      commitsLastMonth = lastFourWeeks.reduce((sum, week) => sum + (week.c || 0), 0);
+      commitsLastWeek = lastFourWeeks[lastFourWeeks.length - 1]?.c || 0;
+      
+      if (commitsLastMonth >= 50) activityLevel = 'very-active';
+      else if (commitsLastMonth >= 20) activityLevel = 'active';
+      else if (commitsLastMonth >= 10) activityLevel = 'moderate';
+      else if (commitsLastMonth >= 1) activityLevel = 'low';
+      else activityLevel = 'inactive';
+    } else {
+      // Fallback to pushed_at date when commit stats are unavailable
+      const lastPushDate = new Date(repoData.pushed_at);
+      const daysSinceLastPush = Math.floor((Date.now() - lastPushDate.getTime()) / (1000 * 60 * 60 * 24));
+      
+      // Estimate activity level based on last push
+      if (daysSinceLastPush <= 7) {
+        activityLevel = 'active'; // Pushed within last week
+      } else if (daysSinceLastPush <= 30) {
+        activityLevel = 'moderate'; // Pushed within last month
+      } else if (daysSinceLastPush <= 90) {
+        activityLevel = 'low'; // Pushed within last 3 months
+      } else {
+        activityLevel = 'inactive'; // No push for over 3 months
+      }
+      
+      // Note: When using fallback, we don't have exact commit counts
+      // but we can estimate based on push frequency
+    }
 
     return {
       ...repoData,
