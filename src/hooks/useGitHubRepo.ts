@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { githubClient, GitHubRepoDetails, GitHubRepo } from '@/lib/github-client';
+import { useGitHubDataContext } from '@/contexts/GitHubDataContext';
 
 /**
  * Result type for full repository details
@@ -31,6 +32,16 @@ export function useGitHubRepo(repoUrl: string | undefined): UseGitHubRepoResult 
   const [data, setData] = useState<GitHubRepoDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  
+  // Try to use context if available, fallback to direct API call
+  let getRepoData: (url: string) => Promise<GitHubRepoDetails>;
+  try {
+    const context = useGitHubDataContext();
+    getRepoData = context.getRepoData;
+  } catch {
+    // Context not available, use direct API
+    getRepoData = (url: string) => githubClient.getFullRepositoryDetails(url);
+  }
 
   const fetchRepo = async () => {
     if (!repoUrl) return;
@@ -39,7 +50,7 @@ export function useGitHubRepo(repoUrl: string | undefined): UseGitHubRepoResult 
     setError(null);
 
     try {
-      const repoData = await githubClient.getFullRepositoryDetails(repoUrl);
+      const repoData = await getRepoData(repoUrl);
       setData(repoData);
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch repository'));
