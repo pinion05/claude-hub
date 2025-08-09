@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { ExtensionCategory } from '@/types';
 import { cn } from '@/utils/classNames';
-import { categoryLabels } from '@/data/extensions';
+import { categoryLabels } from '@/data/categories';
 
 interface CategoryFilterProps {
   selectedCategory: ExtensionCategory | 'all';
@@ -10,7 +10,7 @@ interface CategoryFilterProps {
   extensionCounts?: Record<string, number>;
 }
 
-export const CategoryFilter: React.FC<CategoryFilterProps> = ({
+const CategoryFilterComponent: React.FC<CategoryFilterProps> = ({
   selectedCategory,
   onCategoryChange,
   categories,
@@ -58,3 +58,5 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
     </div>
   );
 };
+
+export const CategoryFilter = memo(CategoryFilterComponent);

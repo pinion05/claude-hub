@@ -2,16 +2,19 @@
 // 서버의 API Route를 통해 GitHub API를 호출합니다
 
 import { clientCache } from './cache';
+import { GitHubAPIError, NetworkError } from './errors';
+import { CACHE_TTL, API_ENDPOINTS, API_LIMITS } from '@/constants/api';
 
-interface GitHubRepo {
+// Simplified types for client use
+export interface GitHubRepo {
   name: string;
   full_name: string;
-  description: string;
+  description: string | null;
   html_url: string;
   stargazers_count: number;
   forks_count: number;
   open_issues_count: number;
-  language: string;
+  language: string | null;
   topics: string[];
   created_at: string;
   updated_at: string;
@@ -19,7 +22,7 @@ interface GitHubRepo {
   license?: {
     name: string;
     spdx_id: string;
-  };
+  } | null;
   owner: {
     login: string;
     avatar_url: string;
@@ -27,7 +30,7 @@ interface GitHubRepo {
   };
 }
 
-interface GitHubRelease {
+export interface GitHubRelease {
   tag_name: string;
   name: string;
   published_at: string;
@@ -36,7 +39,7 @@ interface GitHubRelease {
   html_url: string;
 }
 
-interface GitHubContributor {
+export interface GitHubContributor {
   login: string;
   avatar_url: string;
   html_url: string;
@@ -50,13 +53,7 @@ export interface GitHubRepoDetails extends GitHubRepo {
 }
 
 class GitHubClientAPI {
-  private apiUrl = '/api/github';
-  private readonly CACHE_TTL = {
-    repository: 10 * 60 * 1000, // 10 minutes for basic repo info
-    releases: 5 * 60 * 1000,     // 5 minutes for releases
-    contributors: 15 * 60 * 1000, // 15 minutes for contributors
-    readme: 30 * 60 * 1000,       // 30 minutes for readme
-  };
+  private apiUrl = API_ENDPOINTS.INTERNAL_API;
 
   private async fetchAPI(path: string, ttl?: number) {
     const cacheKey = `api:${path}`;
@@ -68,32 +65,45 @@ class GitHubClientAPI {
       return cached;
     }
     
-    // Cache miss - fetch from API
-    const response = await fetch(`${this.apiUrl}/${path}`);
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || `API error: ${response.status}`);
-    }
+    try {
+      // Cache miss - fetch from API
+      const response = await fetch(`${this.apiUrl}/${path}`);
+      
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => null);
+        throw GitHubAPIError.fromResponse(response, errorBody);
+      }
 
-    const data = await response.json();
-    
-    // Store in cache with TTL
-    if (ttl) {
-      clientCache.set(cacheKey, data, ttl);
+      const data = await response.json();
+      
+      // Store in cache with TTL
+      if (ttl) {
+        clientCache.set(cacheKey, data, ttl);
+      }
+      
+      return data;
+    } catch (error) {
+      if (error instanceof GitHubAPIError) {
+        throw error;
+      }
+      
+      // Network or other errors
+      throw new NetworkError(
+        'Failed to fetch from GitHub API',
+        undefined,
+        error
+      );
     }
-    
-    return data;
   }
 
   async getRepository(owner: string, repo: string): Promise<GitHubRepo> {
-    return this.fetchAPI(`repos/${owner}/${repo}`, this.CACHE_TTL.repository);
+    return this.fetchAPI(`repos/${owner}/${repo}`, CACHE_TTL.REPOSITORY);
   }
 
   async getRepositoryFromUrl(repoUrl: string): Promise<GitHubRepo> {
     const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!match) {
-      throw new Error('Invalid GitHub URL');
+      throw new GitHubAPIError('Invalid GitHub URL', 400, { url: repoUrl });
     }
     const [, owner, repo] = match;
     return this.getRepository(owner!, repo!);
@@ -101,18 +111,18 @@ class GitHubClientAPI {
 
   async getLatestRelease(owner: string, repo: string): Promise<GitHubRelease | null> {
     try {
-      return await this.fetchAPI(`repos/${owner}/${repo}/releases/latest`, this.CACHE_TTL.releases);
+      return await this.fetchAPI(`repos/${owner}/${repo}/releases/latest`, CACHE_TTL.RELEASES);
     } catch {
       // No releases found
       return null;
     }
   }
 
-  async getReleases(owner: string, repo: string, limit = 5): Promise<GitHubRelease[]> {
+  async getReleases(owner: string, repo: string, limit = API_LIMITS.MAX_RELEASES): Promise<GitHubRelease[]> {
     try {
       const releases = await this.fetchAPI(
         `repos/${owner}/${repo}/releases?per_page=${limit}`,
-        this.CACHE_TTL.releases
+        CACHE_TTL.RELEASES
       );
       return releases || [];
     } catch {
@@ -120,11 +130,11 @@ class GitHubClientAPI {
     }
   }
 
-  async getContributors(owner: string, repo: string, limit = 10): Promise<GitHubContributor[]> {
+  async getContributors(owner: string, repo: string, limit = API_LIMITS.MAX_CONTRIBUTORS): Promise<GitHubContributor[]> {
     try {
       const contributors = await this.fetchAPI(
         `repos/${owner}/${repo}/contributors?per_page=${limit}`,
-        this.CACHE_TTL.contributors
+        CACHE_TTL.CONTRIBUTORS
       );
       return contributors || [];
     } catch {
@@ -136,7 +146,7 @@ class GitHubClientAPI {
     try {
       const response = await this.fetchAPI(
         `repos/${owner}/${repo}/readme`,
-        this.CACHE_TTL.readme
+        CACHE_TTL.README
       );
       return response.content || null;
     } catch {
@@ -147,14 +157,14 @@ class GitHubClientAPI {
   async getFullRepositoryDetails(repoUrl: string): Promise<GitHubRepoDetails> {
     const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
     if (!match) {
-      throw new Error('Invalid GitHub URL');
+      throw new GitHubAPIError('Invalid GitHub URL', 400, { url: repoUrl });
     }
     const [, owner, repo] = match;
 
     const [repoData, releases, contributors] = await Promise.all([
       this.getRepository(owner!, repo!),
-      this.getReleases(owner!, repo!, 3),
-      this.getContributors(owner!, repo!, 5),
+      this.getReleases(owner!, repo!),
+      this.getContributors(owner!, repo!),
     ]);
 
     return {

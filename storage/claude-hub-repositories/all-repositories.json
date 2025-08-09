@@ -3,10 +3,6 @@
     {
       "name": "cline",
       "github_url": "https://github.com/cline/cline",
-      "stars": 48900,
-      "description": "IDE 내 자율 AI 코딩 에이전트",
-      "last_updated": "2025.08.09",
-      "version": "v3.23.0",
       "category": "ide-integration",
       "tags": [
         "ide",
@@ -18,10 +14,6 @@
     {
       "name": "claude-task-master",
       "github_url": "https://github.com/eyaltoledano/claude-task-master",
-      "stars": 20200,
-      "description": "AI 기반 태스크 관리 시스템",
-      "last_updated": "2025.07.29",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agent",
@@ -32,10 +24,6 @@
     {
       "name": "opencode",
       "github_url": "https://github.com/sst/opencode",
-      "stars": 18400,
-      "description": "터미널 기반 AI 코딩 에이전트",
-      "last_updated": "2025.08.09",
-      "version": "v0.4.2",
       "category": "integration-extension",
       "tags": [
         "terminal",
@@ -47,10 +35,6 @@
     {
       "name": "claude-code-router",
       "github_url": "https://github.com/musistudio/claude-code-router",
-      "stars": 11600,
-      "description": "Claude Code 요청을 다른 모델로 라우팅",
-      "last_updated": "2025.08",
-      "version": null,
       "category": "proxy-routing",
       "tags": [
         "proxy",
@@ -61,10 +45,6 @@
     {
       "name": "claudia",
       "github_url": "https://github.com/getAsterisk/claudia",
-      "stars": 11200,
-      "description": "Claude Code용 GUI 데스크톱 앱",
-      "last_updated": "2025.08.01",
-      "version": "v0.1.0",
       "category": "gui-desktop",
       "tags": [
         "gui",
@@ -75,10 +55,6 @@
     {
       "name": "awesome-claude-code",
       "github_url": "https://github.com/hesreallyhim/awesome-claude-code",
-      "stars": 9500,
-      "description": "Claude Code 리소스 큐레이션",
-      "last_updated": "2025.07.30",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "resources",
@@ -89,10 +65,6 @@
     {
       "name": "system_prompts_leaks",
       "github_url": "https://github.com/asgeirtj/system_prompts_leaks",
-      "stars": 8200,
-      "description": "AI 챗봇 시스템 프롬프트 컬렉션",
-      "last_updated": "2025.05",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "prompts",
@@ -103,10 +75,6 @@
     {
       "name": "agents",
       "github_url": "https://github.com/wshobson/agents",
-      "stars": 7600,
-      "description": "58개 전문 서브에이전트 컬렉션",
-      "last_updated": "2025.08.04",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -117,10 +85,6 @@
     {
       "name": "ccusage",
       "github_url": "https://github.com/ryoppippi/ccusage",
-      "stars": 6200,
-      "description": "Claude Code 토큰 사용량 분석",
-      "last_updated": "2025.08.09",
-      "version": "v15.9.1",
       "category": "monitoring-analytics",
       "tags": [
         "monitoring",
@@ -132,10 +96,6 @@
     {
       "name": "claude-flow",
       "github_url": "https://github.com/ruvnet/claude-flow",
-      "stars": 5600,
-      "description": "엔터프라이즈 AI 오케스트레이션",
-      "last_updated": "2025.07",
-      "version": "v2.0.0-alpha",
       "category": "agents-orchestration",
       "tags": [
         "orchestration",
@@ -146,10 +106,6 @@
     {
       "name": "claude-squad",
       "github_url": "https://github.com/smtg-ai/claude-squad",
-      "stars": 4000,
-      "description": "다중 AI 터미널 에이전트 관리",
-      "last_updated": "2025.07.23",
-      "version": "v1.0.12",
       "category": "agents-orchestration",
       "tags": [
         "agent",
@@ -160,10 +116,6 @@
     {
       "name": "vibe-kanban",
       "github_url": "https://github.com/BloopAI/vibe-kanban",
-      "stars": 3700,
-      "description": "AI 코딩 에이전트 칸반 보드",
-      "last_updated": "2025.08.08",
-      "version": "v0.0.56",
       "category": "gui-desktop",
       "tags": [
         "gui",
@@ -174,10 +126,6 @@
     {
       "name": "Claude-Code-Usage-Monitor",
       "github_url": "https://github.com/Maciek-roboblog/Claude-Code-Usage-Monitor",
-      "stars": 3700,
-      "description": "실시간 사용량 모니터링",
-      "last_updated": "2025.08",
-      "version": "v3.1.0",
       "category": "monitoring-analytics",
       "tags": [
         "monitoring",
@@ -188,10 +136,6 @@
     {
       "name": "awesome-ai-system-prompts",
       "github_url": "https://github.com/dontriskit/awesome-ai-system-prompts",
-      "stars": 3500,
-      "description": "AI 도구 시스템 프롬프트",
-      "last_updated": "2025",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "prompts",
@@ -202,10 +146,6 @@
     {
       "name": "claude-code-templates",
       "github_url": "https://github.com/davila7/claude-code-templates",
-      "stars": 3500,
-      "description": "프로젝트 템플릿 및 CLI",
-      "last_updated": "2025.08.06",
-      "version": "v1.14.16",
       "category": "resources-guides",
       "tags": [
         "templates",
@@ -216,10 +156,6 @@
     {
       "name": "awesome-claude-prompts",
       "github_url": "https://github.com/langgptai/awesome-claude-prompts",
-      "stars": 3100,
-      "description": "Claude 프롬프트 큐레이션",
-      "last_updated": "2025.02.26",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "prompts",
@@ -229,10 +165,6 @@
     {
       "name": "awesome-claude-agents",
       "github_url": "https://github.com/vijaythecoder/awesome-claude-agents",
-      "stars": 2800,
-      "description": "오케스트레이터 서브에이전트",
-      "last_updated": "2025.07.31",
-      "version": "v1.0.0",
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -243,10 +175,6 @@
     {
       "name": "claudecodeui",
       "github_url": "https://github.com/siteboon/claudecodeui",
-      "stars": 2800,
-      "description": "데스크톱/모바일 UI",
-      "last_updated": "2025.07.13",
-      "version": "v1.5.0",
       "category": "gui-desktop",
       "tags": [
         "gui",
@@ -258,10 +186,6 @@
     {
       "name": "claude-code-action",
       "github_url": "https://github.com/anthropics/claude-code-action",
-      "stars": 2500,
-      "description": "GitHub PR/이슈 통합",
-      "last_updated": "2025.05.19",
-      "version": null,
       "category": "integration-extension",
       "tags": [
         "github",
@@ -272,10 +196,6 @@
     {
       "name": "claude-code-proxy",
       "github_url": "https://github.com/1rgs/claude-code-proxy",
-      "stars": 1800,
-      "description": "Claude Code를 OpenAI 모델에서 실행",
-      "last_updated": "2025.07.28",
-      "version": null,
       "category": "proxy-routing",
       "tags": [
         "proxy",
@@ -286,10 +206,6 @@
     {
       "name": "claude-code-guide",
       "github_url": "https://github.com/zebbern/claude-code-guide",
-      "stars": 1500,
-      "description": "Claude 팁 & 트릭 완벽 가이드",
-      "last_updated": "2025.08",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "guide",
@@ -300,10 +216,6 @@
     {
       "name": "claude-context",
       "github_url": "https://github.com/zilliztech/claude-context",
-      "stars": 1469,
-      "description": "MCP 코드 검색",
-      "last_updated": "2025.08.06",
-      "version": null,
       "category": "integration-extension",
       "tags": [
         "mcp",
@@ -314,10 +226,6 @@
     {
       "name": "claude-code-subagents-collection",
       "github_url": "https://github.com/davepoon/claude-code-subagents-collection",
-      "stars": 1400,
-      "description": "43개+ 서브에이전트 및 39개+ 커맨드",
-      "last_updated": "2025.08",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -328,10 +236,6 @@
     {
       "name": "claude-prompt-generator",
       "github_url": "https://github.com/aws-samples/claude-prompt-generator",
-      "stars": 1300,
-      "description": "Claude 3 프롬프트 생성/최적화",
-      "last_updated": "2024.03.28",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "prompts",
@@ -342,10 +246,6 @@
     {
       "name": "Claude-Code-Development-Kit",
       "github_url": "https://github.com/peterkrueck/Claude-Code-Development-Kit",
-      "stars": 953,
-      "description": "컨텍스트 관리 및 MCP 통합",
-      "last_updated": "2025.08",
-      "version": "v2.1.0",
       "category": "resources-guides",
       "tags": [
         "context",
@@ -356,10 +256,6 @@
     {
       "name": "claude-code-hooks-mastery",
       "github_url": "https://github.com/disler/claude-code-hooks-mastery",
-      "stars": 917,
-      "description": "Claude Code 훅 마스터 가이드",
-      "last_updated": "2025",
-      "version": null,
       "category": "advanced-features",
       "tags": [
         "hooks",
@@ -370,10 +266,6 @@
     {
       "name": "claude-code-ide.el",
       "github_url": "https://github.com/manzaltu/claude-code-ide.el",
-      "stars": 864,
-      "description": "Emacs 통합",
-      "last_updated": "2025.08.02",
-      "version": null,
       "category": "ide-integration",
       "tags": [
         "ide",
@@ -384,10 +276,6 @@
     {
       "name": "claude-code-reverse",
       "github_url": "https://github.com/Yuyz0112/claude-code-reverse",
-      "stars": 836,
-      "description": "LLM 상호작용 시각화",
-      "last_updated": "2025.07",
-      "version": null,
       "category": "advanced-features",
       "tags": [
         "visualization",
@@ -398,10 +286,6 @@
     {
       "name": "claudecode.nvim",
       "github_url": "https://github.com/coder/claudecode.nvim",
-      "stars": 773,
-      "description": "Neovim 통합",
-      "last_updated": "2025.06.21",
-      "version": null,
       "category": "ide-integration",
       "tags": [
         "ide",
@@ -412,10 +296,6 @@
     {
       "name": "claude-sessions",
       "github_url": "https://github.com/iannuttall/claude-sessions",
-      "stars": 653,
-      "description": "세션 추적 및 문서화",
-      "last_updated": "2025.01.16",
-      "version": null,
       "category": "monitoring-analytics",
       "tags": [
         "sessions",
@@ -426,10 +306,6 @@
     {
       "name": "cc",
       "github_url": "https://github.com/kn1026/cc",
-      "stars": 569,
-      "description": "Claude Code 시스템 프롬프트",
-      "last_updated": "2025.07.26",
-      "version": null,
       "category": "advanced-features",
       "tags": [
         "system-prompts",
@@ -439,10 +315,6 @@
     {
       "name": "Claude-Code-Communication",
       "github_url": "https://github.com/nishimoto265/Claude-Code-Communication",
-      "stars": 434,
-      "description": "tmux 에이전트 통신 데모",
-      "last_updated": "2025",
-      "version": null,
       "category": "advanced-features",
       "tags": [
         "tmux",
@@ -453,10 +325,6 @@
     {
       "name": "claude-simone",
       "github_url": "https://github.com/Helmi/claude-simone",
-      "stars": 415,
-      "description": "AI 프로젝트 관리",
-      "last_updated": "2025.07.30",
-      "version": "v0.3.5",
       "category": "integration-extension",
       "tags": [
         "project-management",
@@ -466,10 +334,6 @@
     {
       "name": "claude_code_agent_farm",
       "github_url": "https://github.com/Dicklesworthstone/claude_code_agent_farm",
-      "stars": 414,
-      "description": "병렬 Claude Code 에이전트",
-      "last_updated": "2025",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -480,10 +344,6 @@
     {
       "name": "claude-crash-course-templates",
       "github_url": "https://github.com/bhancockio/claude-crash-course-templates",
-      "stars": 317,
-      "description": "빠른 시작 템플릿",
-      "last_updated": "2025",
-      "version": null,
       "category": "resources-guides",
       "tags": [
         "templates",
@@ -494,10 +354,6 @@
     {
       "name": "claude-sub-agent",
       "github_url": "https://github.com/zhsama/claude-sub-agent",
-      "stars": 276,
-      "description": "AI 기반 개발 워크플로우",
-      "last_updated": "2025",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -508,10 +364,6 @@
     {
       "name": "superclaude",
       "github_url": "https://github.com/gwendall/superclaude",
-      "stars": 179,
-      "description": "GitHub 워크플로우 AI 강화",
-      "last_updated": "2025",
-      "version": null,
       "category": "utilities",
       "tags": [
         "github",
@@ -522,10 +374,6 @@
     {
       "name": "claude-code-subagents",
       "github_url": "https://github.com/NicholasSpisak/claude-code-subagents",
-      "stars": 153,
-      "description": "76개+ 전문 AI 페르소나",
-      "last_updated": "2025",
-      "version": null,
       "category": "agents-orchestration",
       "tags": [
         "agents",
@@ -536,10 +384,6 @@
     {
       "name": "ClaudeR",
       "github_url": "https://github.com/IMNMV/ClaudeR",
-      "stars": 77,
-      "description": "RStudio 직접 연결",
-      "last_updated": "2025",
-      "version": null,
       "category": "ide-integration",
       "tags": [
         "ide",
@@ -550,10 +394,6 @@
     {
       "name": "clod",
       "github_url": "https://github.com/fuzz/clod",
-      "stars": 35,
-      "description": "Claude AI 프로젝트 파일 관리",
-      "last_updated": "2025.04.23",
-      "version": "v0.2.3",
       "category": "utilities",
       "tags": [
         "file-management",
@@ -563,10 +403,6 @@
     {
       "name": "claude-code-mastering",
       "github_url": "https://github.com/revfactory/claude-code-mastering",
-      "stars": null,
-      "description": "한국어 Claude Code 완전 가이드북",
-      "last_updated": "2025.06",
-      "version": null,
       "category": "utilities",
       "tags": [
         "guide",
@@ -576,11 +412,7 @@
     },
     {
       "name": "kilocode",
-      "github_url": "https://https://github.com/Kilo-Org/kilocode",
-      "stars": null,
-      "description": "IDE 통합 도구",
-      "last_updated": null,
-      "version": null,
+      "github_url": "https://github.com/Kilo-Org/kilocode",
       "category": "ide-integration",
       "tags": [
         "ide",

@@ -4,7 +4,7 @@ import { Badge } from '@/components/atoms/Badge';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
 import { cn } from '@/utils/classNames';
 import { useGitHubRepoBasic } from '@/hooks/useGitHubRepo';
-import { categoryLabels } from '@/data/extensions';
+import { categoryLabels } from '@/data/categories';
 
 export interface ExtensionCardProps {
   extension: Extension;
@@ -12,7 +12,7 @@ export interface ExtensionCardProps {
   index?: number;
 }
 
-export const ExtensionCard = memo<ExtensionCardProps>(({
+const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
   extension,
   onClick,
   index = 0
@@ -131,6 +131,17 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
         </div>
       </div>
     </article>
+  );
+};
+
+// Memo with custom comparison function
+export const ExtensionCard = memo(ExtensionCardComponent, (prevProps, nextProps) => {
+  // Only re-render if these specific props change
+  return (
+    prevProps.extension.id === nextProps.extension.id &&
+    prevProps.extension.stars === nextProps.extension.stars &&
+    prevProps.extension.description === nextProps.extension.description &&
+    prevProps.index === nextProps.index
   );
 });
 

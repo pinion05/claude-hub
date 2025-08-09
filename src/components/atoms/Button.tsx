@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
 import { cn } from '@/utils/classNames';
 
 type ButtonBaseProps = {
@@ -20,7 +20,7 @@ type ButtonAsAnchor = ButtonBaseProps &
 
 export type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 
-export const Button = forwardRef<
+const ButtonComponent = forwardRef<
   HTMLButtonElement | HTMLAnchorElement,
   ButtonProps
 >(({ className, variant = 'primary', size = 'md', children, as = 'button', ...props }, ref) => {
@@ -70,4 +70,6 @@ export const Button = forwardRef<
   }
 );
 
-Button.displayName = 'Button';
+ButtonComponent.displayName = 'Button';
+
+export const Button = memo(ButtonComponent);

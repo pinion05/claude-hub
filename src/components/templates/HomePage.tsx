@@ -1,22 +1,42 @@
 'use client';
 
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import { Extension, ExtensionCategory } from '@/types';
 import { Header } from '@/components/organisms/Header';
 import { SearchSection } from '@/components/organisms/SearchSection';
 import { ExtensionGrid } from '@/components/organisms/ExtensionGrid';
-import { ExtensionModal } from '@/components/organisms/ExtensionModal';
 import { CategoryFilter } from '@/components/molecules/CategoryFilter';
 import { useSearch } from '@/hooks/useSearch';
 import { useScrollSticky } from '@/hooks/useScrollSticky';
 import { useModal } from '@/hooks/useModal';
-import { categoryLabels } from '@/data/extensions';
+import { categoryLabels } from '@/data/categories';
+import { Skeleton } from '@/components/atoms/Skeleton';
 
+// Lazy load ExtensionModal since it's not immediately needed
+const ExtensionModal = lazy(() => import('@/components/organisms/ExtensionModal').then(module => ({
+  default: module.ExtensionModal
+})));
+
+/**
+ * HomePage Props
+ * @property {Extension[]} extensions - List of all available extensions
+ * @property {string[]} suggestions - Search suggestions for autocomplete
+ */
 export interface HomePageProps {
   extensions: Extension[];
   suggestions: string[];
 }
 
+/**
+ * HomePage Component
+ * 
+ * Main landing page component that handles search, filtering, and display of Claude extensions.
+ * Features two view modes: initial centered search and results view with sticky header.
+ * 
+ * @component
+ * @param {HomePageProps} props - Component props
+ * @returns {JSX.Element} Rendered HomePage
+ */
 export const HomePage: React.FC<HomePageProps> = ({
   extensions,
   suggestions
@@ -73,21 +93,21 @@ export const HomePage: React.FC<HomePageProps> = ({
     return filteredExtensions.filter(ext => ext.category === selectedCategory);
   }, [filteredExtensions, selectedCategory]);
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = useCallback((suggestion: string) => {
     handleSuggestionSelect(suggestion);
     handleShowResults();
-  };
+  }, [handleSuggestionSelect, handleShowResults]);
 
-  const handleSearchFocus = () => {
+  const handleSearchFocus = useCallback(() => {
     if (query && filteredSuggestions.length > 0) {
       // Re-show suggestions on focus if there's a query
     }
-  };
+  }, [query, filteredSuggestions.length]);
 
-  const handleLogoClick = () => {
+  const handleLogoClick = useCallback(() => {
     resetSearch();
     searchInputRef.current?.focus();
-  };
+  }, [resetSearch]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -194,12 +214,14 @@ export const HomePage: React.FC<HomePageProps> = ({
         </main>
       )}
       
-      {/* Extension details modal */}
-      <ExtensionModal
-        extension={extensionModal.data}
-        isOpen={extensionModal.isOpen}
-        onClose={extensionModal.close}
-      />
+      {/* Extension details modal - lazy loaded */}
+      <Suspense fallback={<div className="fixed inset-0 bg-black/50 flex items-center justify-center"><Skeleton className="w-96 h-96" /></div>}>
+        <ExtensionModal
+          extension={extensionModal.data}
+          isOpen={extensionModal.isOpen}
+          onClose={extensionModal.close}
+        />
+      </Suspense>
     </div>
   );
 };

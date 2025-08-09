@@ -1,3 +1,5 @@
+import type { WebVitalMetric } from '@/types/web-vitals';
+
 export const measurePerformance = (name: string, fn: () => void): void => {
   if (typeof window === 'undefined' || !window.performance) return;
   
@@ -17,7 +19,7 @@ export const measurePerformance = (name: string, fn: () => void): void => {
   }
 };
 
-export const reportWebVitals = (metric: any): void => {
+export const reportWebVitals = (metric: WebVitalMetric): void => {
   if (process.env.NODE_ENV === 'development') {
     console.log(metric);
   }

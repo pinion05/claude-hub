@@ -2,13 +2,26 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Extension, SearchState } from '@/types';
 import { searchExtensions, getSuggestions } from '@/utils/search';
 import { debounce } from '@/utils/debounce';
+import { API_LIMITS } from '@/constants/api';
 
+/**
+ * Props for useSearch hook
+ * @interface UseSearchProps
+ * @property {Extension[]} extensions - Available extensions to search through
+ * @property {string[]} suggestions - Search suggestions for autocomplete
+ * @property {number} [debounceDelay=300] - Milliseconds to wait before executing search
+ */
 interface UseSearchProps {
   extensions: Extension[];
   suggestions: string[];
   debounceDelay?: number;
 }
 
+/**
+ * Return type for useSearch hook
+ * @interface UseSearchReturn
+ * @extends SearchState
+ */
 interface UseSearchReturn extends SearchState {
   filteredExtensions: Extension[];
   handleSearchChange: (query: string) => void;
@@ -18,10 +31,19 @@ interface UseSearchReturn extends SearchState {
   resetSearch: () => void;
 }
 
+/**
+ * Custom hook for managing search functionality
+ * 
+ * Handles search input, suggestions, keyboard navigation, and debounced filtering.
+ * Integrates with extension data to provide real-time search results.
+ * 
+ * @param {UseSearchProps} props - Hook configuration
+ * @returns {UseSearchReturn} Search state and handlers
+ */
 export const useSearch = ({
   extensions,
   suggestions,
-  debounceDelay = 300
+  debounceDelay = API_LIMITS.SEARCH_DEBOUNCE
 }: UseSearchProps): UseSearchReturn => {
   const [searchState, setSearchState] = useState<SearchState>({
     query: '',

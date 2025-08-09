@@ -50,7 +50,17 @@ class GitHubClient {
 
   constructor() {
     this.token = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
-    this.apiUrl = process.env.NEXT_PUBLIC_GITHUB_API_URL || 'https://api.github.com';
+    // In server components, use direct GitHub API with proper auth
+    // In client components, use our API proxy
+    if (typeof window === 'undefined') {
+      // Server-side: direct GitHub API
+      this.apiUrl = 'https://api.github.com';
+      // Use server-side token if available
+      this.token = process.env.GITHUB_TOKEN || process.env.NEXT_PUBLIC_GITHUB_TOKEN;
+    } else {
+      // Client-side: use API proxy
+      this.apiUrl = '/api/github';
+    }
   }
 
   private async fetchWithAuth(url: string, options: RequestInit = {}) {

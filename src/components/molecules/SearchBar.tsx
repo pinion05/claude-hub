@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
 import { Input } from '@/components/atoms/Input';
 import { cn } from '@/utils/classNames';
 
@@ -15,7 +15,7 @@ export interface SearchBarProps {
   className?: string;
 }
 
-export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
+const SearchBarComponent = forwardRef<HTMLInputElement, SearchBarProps>(
   ({
     value,
     onChange,
@@ -88,4 +88,6 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   }
 );
 
-SearchBar.displayName = 'SearchBar';
+SearchBarComponent.displayName = 'SearchBar';
+
+export const SearchBar = memo(SearchBarComponent);

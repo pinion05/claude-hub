@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { cn } from '@/utils/classNames';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -6,7 +6,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: 'sm' | 'md';
 }
 
-export const Badge: React.FC<BadgeProps> = ({
+const BadgeComponent: React.FC<BadgeProps> = ({
   className,
   variant = 'default',
   size = 'md',
@@ -40,3 +40,5 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
+
+export const Badge = memo(BadgeComponent);

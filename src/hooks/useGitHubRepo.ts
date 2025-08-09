@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { githubClient, GitHubRepoDetails } from '@/lib/github-client';
+import { githubClient, GitHubRepoDetails, GitHubRepo } from '@/lib/github-client';
 
+/**
+ * Result type for full repository details
+ */
 interface UseGitHubRepoResult {
   data: GitHubRepoDetails | null;
   loading: boolean;
@@ -8,6 +11,22 @@ interface UseGitHubRepoResult {
   refetch: () => void;
 }
 
+/**
+ * Result type for basic repository info
+ */
+interface UseGitHubRepoBasicResult {
+  data: GitHubRepo | null;
+  loading: boolean;
+  error: Error | null;
+  refetch?: () => void;
+}
+
+/**
+ * Fetches full GitHub repository details including releases and contributors
+ * 
+ * @param {string | undefined} repoUrl - GitHub repository URL
+ * @returns {UseGitHubRepoResult} Repository data, loading state, and error
+ */
 export function useGitHubRepo(repoUrl: string | undefined): UseGitHubRepoResult {
   const [data, setData] = useState<GitHubRepoDetails | null>(null);
   const [loading, setLoading] = useState(false);
@@ -42,31 +61,46 @@ export function useGitHubRepo(repoUrl: string | undefined): UseGitHubRepoResult 
   };
 }
 
-export function useGitHubRepoBasic(repoUrl: string | undefined) {
-  const [data, setData] = useState<any>(null);
+/**
+ * Fetches basic GitHub repository information
+ * 
+ * This is a lightweight version that only fetches core repository data
+ * without additional API calls for releases or contributors.
+ * 
+ * @param {string | undefined} repoUrl - GitHub repository URL
+ * @param {boolean} [fetchOnMount=true] - Whether to fetch immediately on mount
+ * @returns {UseGitHubRepoBasicResult} Repository data, loading state, and error
+ */
+export function useGitHubRepoBasic(
+  repoUrl: string | undefined,
+  fetchOnMount: boolean = true
+): UseGitHubRepoBasicResult {
+  const [data, setData] = useState<GitHubRepo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
+  const fetchRepo = async () => {
     if (!repoUrl) return;
+    
+    setLoading(true);
+    setError(null);
 
-    const fetchRepo = async () => {
-      setLoading(true);
-      setError(null);
+    try {
+      const repoData = await githubClient.getRepositoryFromUrl(repoUrl);
+      setData(repoData);
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to fetch repository'));
+      console.error('Error fetching GitHub repo:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      try {
-        const repoData = await githubClient.getRepositoryFromUrl(repoUrl);
-        setData(repoData);
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch repository'));
-        console.error('Error fetching GitHub repo:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  useEffect(() => {
+    if (fetchOnMount) {
+      fetchRepo();
+    }
+  }, [repoUrl, fetchOnMount]);
 
-    fetchRepo();
-  }, [repoUrl]);
-
-  return { data, loading, error };
+  return { data, loading, error, refetch: fetchRepo };
 }

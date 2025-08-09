@@ -5,7 +5,7 @@ import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
 import { useGitHubRepo } from '@/hooks/useGitHubRepo';
-import { categoryLabels } from '@/data/extensions';
+import { categoryLabels } from '@/data/categories';
 import { Skeleton } from '@/components/atoms/Skeleton';
 
 export interface ExtensionModalProps {
