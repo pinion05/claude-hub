@@ -11,6 +11,7 @@ import { useScrollSticky } from '@/hooks/useScrollSticky';
 import { useModal } from '@/hooks/useModal';
 import { categoryLabels } from '@/data/categories';
 import { Skeleton } from '@/components/atoms/Skeleton';
+import { GitHubDataProvider } from '@/contexts/GitHubDataContext';
 
 // Lazy load ExtensionModal since it's not immediately needed
 const ExtensionModal = lazy(() => import('@/components/organisms/ExtensionModal').then(module => ({
@@ -110,10 +111,11 @@ export const HomePage: React.FC<HomePageProps> = ({
   }, [resetSearch]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Header - only visible when showing results */}
-      {showResults && (
-        <Header
+    <GitHubDataProvider>
+      <div className="min-h-screen bg-background text-foreground">
+        {/* Header - only visible when showing results */}
+        {showResults && (
+          <Header
           ref={searchInputRef}
           searchQuery={query}
           onSearchChange={handleSearchChange}
@@ -222,6 +224,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           onClose={extensionModal.close}
         />
       </Suspense>
-    </div>
+      </div>
+    </GitHubDataProvider>
   );
 };
