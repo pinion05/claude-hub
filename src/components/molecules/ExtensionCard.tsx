@@ -111,19 +111,19 @@ export const ExtensionCard = memo<ExtensionCardProps>(({
         </div>
         
         <div className="flex items-center justify-between gap-2">
-          <Badge variant="accent" size="sm">
+          <Badge variant="accent" size="sm" className="flex-shrink-0">
             {categoryLabels[extension.category] || extension.category}
           </Badge>
           
-          <div className="flex items-center gap-3 text-xs text-gray-500">
+          <div className="flex items-center gap-3 text-xs text-gray-500 min-w-0">
             {displayStars && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 flex-shrink-0">
                 <span>⭐</span>
                 <span>{displayStars.toLocaleString()}</span>
               </div>
             )}
             {lastUpdated && (
-              <span className="text-gray-600">
+              <span className="text-gray-600 truncate">
                 {lastUpdated}
               </span>
             )}
