@@ -127,7 +127,7 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-gray-400 mb-3">Top Contributors</h3>
               <div className="flex flex-wrap gap-3">
-                {repoData.contributors.map((contributor) => (
+                {repoData.contributors.slice(0, 5).map((contributor) => (
                   <a
                     key={contributor.login}
                     href={contributor.html_url}
@@ -144,6 +144,11 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
                     <span className="text-xs text-gray-500">({contributor.contributions})</span>
                   </a>
                 ))}
+                {repoData.contributors.length > 5 && (
+                  <div className="flex items-center px-3 py-2 text-xs text-gray-500">
+                    and {repoData.contributors.length - 5} more...
+                  </div>
+                )}
               </div>
             </div>
           )}
