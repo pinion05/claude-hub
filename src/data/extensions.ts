@@ -87,6 +87,69 @@ export async function fetchExtensionWithGitHubData(
       // Ignore release fetch errors - releases are optional
     }
     
+    // Try to fetch commit activity stats
+    let commitActivity: Extension['commitActivity'] | undefined;
+    try {
+      const statsResponse = await fetch(
+        `https://api.github.com/repos/${owner}/${repo}/stats/commit_activity`,
+        { 
+          headers,
+          next: { revalidate: REVALIDATE_TIME }
+        }
+      );
+      
+      if (statsResponse.ok) {
+        const statsData = await statsResponse.json();
+        
+        if (statsData && Array.isArray(statsData) && statsData.length > 0) {
+          // Calculate activity level based on recent commits
+          const lastFourWeeks = statsData.slice(-4);
+          const commitsLastMonth = lastFourWeeks.reduce((sum: number, week: any) => sum + (week.c || 0), 0);
+          const commitsLastWeek = lastFourWeeks[lastFourWeeks.length - 1]?.c || 0;
+          
+          let activityLevel: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
+          if (commitsLastMonth >= 50) activityLevel = 'very-active';
+          else if (commitsLastMonth >= 20) activityLevel = 'active';
+          else if (commitsLastMonth >= 10) activityLevel = 'moderate';
+          else if (commitsLastMonth >= 1) activityLevel = 'low';
+          else activityLevel = 'inactive';
+          
+          commitActivity = {
+            lastCommit: repoData.pushed_at,
+            commitsLastMonth,
+            commitsLastWeek,
+            activityLevel
+          };
+        }
+      }
+      
+      // If stats API failed or returned no data, fallback to pushed_at date
+      if (!commitActivity && repoData.pushed_at) {
+        const lastPushDate = new Date(repoData.pushed_at);
+        const daysSinceLastPush = Math.floor((Date.now() - lastPushDate.getTime()) / (1000 * 60 * 60 * 24));
+        
+        let activityLevel: 'very-active' | 'active' | 'moderate' | 'low' | 'inactive';
+        if (daysSinceLastPush <= 7) {
+          activityLevel = 'active';
+        } else if (daysSinceLastPush <= 30) {
+          activityLevel = 'moderate';
+        } else if (daysSinceLastPush <= 90) {
+          activityLevel = 'low';
+        } else {
+          activityLevel = 'inactive';
+        }
+        
+        commitActivity = {
+          lastCommit: repoData.pushed_at,
+          commitsLastMonth: 0,
+          commitsLastWeek: 0,
+          activityLevel
+        };
+      }
+    } catch {
+      // Ignore commit activity fetch errors - it's optional
+    }
+    
     const baseResult: Extension = {
       ...extension,
       description: repoData.description || 'No description available',
@@ -102,7 +165,8 @@ export async function fetchExtensionWithGitHubData(
     return {
       ...baseResult,
       ...(lastUpdatedDate && { lastUpdated: lastUpdatedDate }),
-      ...(version && { version })
+      ...(version && { version }),
+      ...(commitActivity && { commitActivity })
     };
   } catch (error) {
     ErrorHandler.log(error);

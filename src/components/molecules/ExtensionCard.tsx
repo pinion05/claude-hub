@@ -24,6 +24,9 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
   const displayStars = repoData?.stargazers_count || extension.stars;
   const displayDescription = repoData?.description || extension.description;
   const lastUpdated = repoData?.pushed_at ? new Date(repoData.pushed_at).toLocaleDateString() : extension.lastUpdated;
+  
+  // Use extension commitActivity if available, otherwise show as loading/unknown
+  const activityLevel = extension.commitActivity?.activityLevel || 'inactive';
 
   return (
     <article
@@ -117,14 +120,12 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
           </Badge>
           
           <div className="flex items-center gap-3 text-xs text-gray-500 min-w-0">
-            {extension.commitActivity?.activityLevel && (
-              <ActivityIndicator 
-                level={extension.commitActivity.activityLevel}
-                commitsLastMonth={extension.commitActivity.commitsLastMonth}
-                commitsLastWeek={extension.commitActivity.commitsLastWeek}
-                showDetails={false}
-              />
-            )}
+            <ActivityIndicator 
+              level={activityLevel}
+              commitsLastMonth={extension.commitActivity?.commitsLastMonth}
+              commitsLastWeek={extension.commitActivity?.commitsLastWeek}
+              showDetails={false}
+            />
             {displayStars && (
               <div className="flex items-center gap-1 flex-shrink-0">
                 <span>⭐</span>
