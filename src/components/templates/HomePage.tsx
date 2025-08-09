@@ -10,6 +10,7 @@ import { CategoryFilter } from '@/components/molecules/CategoryFilter';
 import { useSearch } from '@/hooks/useSearch';
 import { useScrollSticky } from '@/hooks/useScrollSticky';
 import { useModal } from '@/hooks/useModal';
+import { categoryLabels } from '@/data/extensions';
 
 export interface HomePageProps {
   extensions: Extension[];
@@ -131,8 +132,18 @@ export const HomePage: React.FC<HomePageProps> = ({
           
           {/* Initial extension grid */}
           <div className="max-w-6xl mx-auto px-6 pb-12">
+            {/* Category Filter for initial view */}
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              categories={categories as ExtensionCategory[]}
+              extensionCounts={categoryExtensionCounts}
+            />
+            
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2">All Extensions</h2>
+              <h2 className="text-3xl font-bold mb-2">
+                {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
+              </h2>
               <p className="text-gray-400">
                 {query ? 
                   `${categoryFilteredExtensions.length} results for "${query}"` : 
@@ -161,7 +172,9 @@ export const HomePage: React.FC<HomePageProps> = ({
               extensionCounts={categoryExtensionCounts}
             />
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2">All Extensions</h2>
+              <h2 className="text-3xl font-bold mb-2">
+                {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
+              </h2>
               <p className="text-gray-400">
                 {query ? 
                   `${categoryFilteredExtensions.length} results for "${query}"` : 
