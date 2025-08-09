@@ -2,7 +2,6 @@ import React, { memo, useState } from 'react';
 import { Extension } from '@/types';
 import { Badge } from '@/components/atoms/Badge';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
-import { ActivityIndicator } from '@/components/atoms/ActivityIndicator';
 import { cn } from '@/utils/classNames';
 import { useGitHubRepoBasic } from '@/hooks/useGitHubRepo';
 import { categoryLabels } from '@/data/categories';
@@ -117,14 +116,6 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
           </Badge>
           
           <div className="flex items-center gap-3 text-xs text-gray-500 min-w-0">
-            {extension.commitActivity && (
-              <ActivityIndicator
-                level={extension.commitActivity.activityLevel}
-                commitsLastMonth={extension.commitActivity.commitsLastMonth}
-                commitsLastWeek={extension.commitActivity.commitsLastWeek}
-                showDetails={false}
-              />
-            )}
             {displayStars && (
               <div className="flex items-center gap-1 flex-shrink-0">
                 <span>⭐</span>

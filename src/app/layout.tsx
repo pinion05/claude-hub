@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fira_Code } from "next/font/google";
 import { ErrorBoundary } from "@/components/organisms/ErrorBoundary";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const firaCode = Fira_Code({
@@ -35,7 +34,6 @@ export default function RootLayout({
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
-        <Analytics />
       </body>
     </html>
   );

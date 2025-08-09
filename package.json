@@ -18,7 +18,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@vercel/analytics": "^1.5.0",
     "critters": "^0.0.25",
     "next": "15.4.5",
     "react": "19.1.0",
