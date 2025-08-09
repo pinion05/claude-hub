@@ -153,7 +153,7 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
             <div className="mb-6">
               <h3 className="text-sm font-semibold text-gray-400 mb-3">Recent Releases</h3>
               <div className="space-y-2">
-                {repoData.releases.map((release) => (
+                {repoData.releases.slice(0, 3).map((release) => (
                   <a
                     key={release.tag_name}
                     href={release.html_url}
@@ -174,6 +174,11 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
                     )}
                   </a>
                 ))}
+                {repoData.releases.length > 3 && (
+                  <div className="text-xs text-gray-500 text-center pt-2">
+                    and {repoData.releases.length - 3} more...
+                  </div>
+                )}
               </div>
             </div>
           )}
