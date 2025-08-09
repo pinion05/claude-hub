@@ -1,3 +1,5 @@
+import { simpleEncrypt, simpleDecrypt } from '@/utils/crypto';
+
 interface CacheItem<T> {
   data: T;
   timestamp: number;
@@ -5,7 +7,7 @@ interface CacheItem<T> {
 }
 
 class ClientCache {
-  private cache: Map<string, CacheItem<any>>;
+  private cache: Map<string, CacheItem<unknown>>;
   private readonly DEFAULT_TTL = 5 * 60 * 1000; // 5 minutes default TTL
 
   constructor() {
@@ -21,12 +23,13 @@ class ClientCache {
     try {
       const stored = localStorage.getItem('github_api_cache');
       if (stored) {
-        const parsed = JSON.parse(stored);
+        const decrypted = simpleDecrypt(stored);
+        const parsed = JSON.parse(decrypted);
         const now = Date.now();
         
         // Restore non-expired items
         Object.entries(parsed).forEach(([key, item]) => {
-          const cacheItem = item as CacheItem<any>;
+          const cacheItem = item as CacheItem<unknown>;
           if (cacheItem.expiresAt > now) {
             this.cache.set(key, cacheItem);
           }
@@ -41,12 +44,13 @@ class ClientCache {
     if (typeof window === 'undefined' || !window.localStorage) return;
     
     try {
-      const cacheObject: Record<string, CacheItem<any>> = {};
+      const cacheObject: Record<string, CacheItem<unknown>> = {};
       this.cache.forEach((value, key) => {
         cacheObject[key] = value;
       });
       
-      localStorage.setItem('github_api_cache', JSON.stringify(cacheObject));
+      const encrypted = simpleEncrypt(JSON.stringify(cacheObject));
+      localStorage.setItem('github_api_cache', encrypted);
     } catch (error) {
       console.warn('Failed to save cache to localStorage:', error);
     }
@@ -148,9 +152,18 @@ class ClientCache {
 // Singleton instance
 export const clientCache = new ClientCache();
 
-// Cleanup expired entries periodically
+// Cleanup expired entries periodically with proper cleanup
+let cleanupInterval: NodeJS.Timeout | undefined;
+
 if (typeof window !== 'undefined') {
-  setInterval(() => {
+  cleanupInterval = setInterval(() => {
     clientCache.cleanup();
   }, 60 * 1000); // Clean up every minute
+  
+  // Clean up interval on page unload
+  window.addEventListener('beforeunload', () => {
+    if (cleanupInterval) {
+      clearInterval(cleanupInterval);
+    }
+  });
 }

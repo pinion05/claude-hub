@@ -4,6 +4,7 @@ import { Modal } from '@/components/molecules/Modal';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
+import { ActivityIndicator } from '@/components/atoms/ActivityIndicator';
 import { useGitHubRepo } from '@/hooks/useGitHubRepo';
 import { categoryLabels } from '@/data/categories';
 import { Skeleton } from '@/components/atoms/Skeleton';
@@ -119,6 +120,19 @@ export const ExtensionModal: React.FC<ExtensionModalProps> = ({
             <div className="mb-4">
               <h3 className="text-sm font-semibold text-gray-400 mb-2">License</h3>
               <span className="text-sm text-gray-300">{repoData.license.name}</span>
+            </div>
+          )}
+
+          {/* Commit Activity */}
+          {repoData?.commitActivity?.activityLevel && (
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-400 mb-2">Development Activity</h3>
+              <ActivityIndicator 
+                level={repoData.commitActivity.activityLevel}
+                commitsLastMonth={repoData.commitActivity.commitsLastMonth}
+                commitsLastWeek={repoData.commitActivity.commitsLastWeek}
+                showDetails={true}
+              />
             </div>
           )}
 

@@ -2,6 +2,7 @@ import React, { memo, useState } from 'react';
 import { Extension } from '@/types';
 import { Badge } from '@/components/atoms/Badge';
 import { CategoryIcon } from '@/components/atoms/CategoryIcon';
+import { ActivityIndicator } from '@/components/atoms/ActivityIndicator';
 import { cn } from '@/utils/classNames';
 import { useGitHubRepoBasic } from '@/hooks/useGitHubRepo';
 import { categoryLabels } from '@/data/categories';
@@ -23,6 +24,10 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
   const displayStars = repoData?.stargazers_count || extension.stars;
   const displayDescription = repoData?.description || extension.description;
   const lastUpdated = repoData?.pushed_at ? new Date(repoData.pushed_at).toLocaleDateString() : extension.lastUpdated;
+  
+  // Use fresh commitActivity from client-side fetch, fallback to server-side data
+  const commitActivity = (repoData as any)?.commitActivity || extension.commitActivity;
+  const activityLevel = commitActivity?.activityLevel || 'inactive';
 
   return (
     <article
@@ -116,6 +121,12 @@ const ExtensionCardComponent: React.FC<ExtensionCardProps> = ({
           </Badge>
           
           <div className="flex items-center gap-3 text-xs text-gray-500 min-w-0">
+            <ActivityIndicator 
+              level={activityLevel}
+              commitsLastMonth={commitActivity?.commitsLastMonth}
+              commitsLastWeek={commitActivity?.commitsLastWeek}
+              showDetails={false}
+            />
             {displayStars && (
               <div className="flex items-center gap-1 flex-shrink-0">
                 <span>⭐</span>

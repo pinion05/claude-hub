@@ -1,234 +1,195 @@
-# Claude Hub
+# Claude Hub 🔍
 
-A searchable interface for discovering Claude extensions, tools, and integrations. Built with modern web technologies and a terminal-inspired aesthetic.
+**Discover Claude AI Extensions at a Glance!**
 
-![Next.js](https://img.shields.io/badge/Next.js-15.4.5-black?style=flat-square&logo=next.js)
-![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat-square&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss)
+Claude Hub is a directory service where you can easily search and explore various extensions, tools, and resources related to Claude AI.
 
-## ✨ Features
+[![Live Demo](https://img.shields.io/badge/Demo-Live-FF6B6B?style=for-the-badge)](https://www.claude-hub.org)
+[![GitHub Stars](https://img.shields.io/github/stars/pinion05/claude-hub?style=for-the-badge&color=yellow)](https://github.com/pinion05/claude-hub)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
-- 🔍 **Google-style Search Interface** - Intuitive search with terminal aesthetics
-- ⚡ **Real-time Search** - Instant results with autocomplete suggestions
-- 🎨 **Modern Dark Theme** - Sleek design with coral accent colors (#FF6B6B)
-- 📱 **Fully Responsive** - Optimized for all devices and screen sizes
-- ⌨️ **Keyboard Navigation** - Full keyboard support for power users
-- 🎯 **Type-Safe** - Built with TypeScript and strict mode enabled
-- 🧱 **Atomic Design** - Scalable component architecture
-- ⚡ **Lightning Fast** - Powered by Turbopack and React 19 optimizations
-- 🧪 **Well-Tested** - 80% test coverage requirement
+## ✨ Key Features
 
-## 🚀 Tech Stack
+### 🔎 Smart Search
+- **Real-time Search**: Get instant results as you type
+- **Auto-complete**: Popular search term suggestions
+- **Keyboard Navigation**: Quick navigation with arrow keys
 
-- **Framework**: [Next.js 15.4.5](https://nextjs.org/) with App Router
-- **Language**: [TypeScript](https://www.typescriptlang.org/) with strict mode
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/) with PostCSS
-- **Architecture**: [Atomic Design Pattern](https://bradfrost.com/blog/post/atomic-web-design/)
-- **State Management**: React Hooks (no external libraries)
-- **Testing**: Jest + React Testing Library
-- **Code Quality**: ESLint, Husky, lint-staged
-- **Performance**: Turbopack, React 19, optimized builds
+### 📊 Live GitHub Statistics
+- ⭐ Latest star count
+- 🔱 Fork count
+- 📝 Issue status
+- 🚀 Recent releases
+- 👥 Top contributors
 
-## 📋 Prerequisites
+### 🏷️ Browse by Category
+- **💻 IDE Integration**: IDE extensions for VS Code, IntelliJ, etc.
+- **🤖 Agents & Orchestration**: AI agents and workflow tools
+- **📊 Monitoring & Analytics**: Usage analysis and monitoring
+- **🔀 Proxy & Routing**: API proxy and routing solutions
+- **📚 Resources & Guides**: Learning materials and guides
+- **🖥️ GUI & Desktop**: Desktop applications
+- **🔌 Integration & Extension**: Various integration tools
 
-- Node.js 20.0.0 or higher
-- npm 10.0.0 or higher
+## 🎯 Perfect For
 
-## 🛠️ Installation
+- **Developers**: Looking to integrate Claude AI into development workflows
+- **Data Scientists**: Searching for AI-powered analysis tools
+- **Project Managers**: Finding team productivity enhancement tools
+- **AI Enthusiasts**: Exploring the latest Claude-related projects
 
+## 🚀 Getting Started
+
+### Use on the Web
+1. Visit [Claude Hub](https://www.claude-hub.org)
+2. Enter desired tools in the search bar (e.g., "vscode", "agent", "monitoring")
+3. Narrow results with category filters
+4. Click on projects of interest for detailed information
+5. Navigate to project pages via "View on GitHub" button
+
+### Run Locally
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/claude-hub.git
+git clone https://github.com/pinion05/claude-hub.git
 cd claude-hub
 
-# Install dependencies (npm only)
+# Install dependencies
 npm install
 
 # Run development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Visit [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 📜 Available Scripts
+## 💡 Pro Tips
 
-```bash
-# Development
-npm run dev              # Start dev server with Turbopack (port 3000)
-npm run build            # Build for production
-npm run start            # Start production server
+### Search Tips
+- **Tag Search**: Search with tags like #vscode, #terminal
+- **Compound Search**: Combine multiple keywords like "ai agent"
+- **Category Filter**: Filter results by category after searching
+- **Wildcard**: Partial match search supported
 
-# Code Quality
-npm run lint             # Run ESLint
-npm run lint:fix         # Auto-fix ESLint issues
-npm run type-check       # TypeScript type checking
+### Keyboard Shortcuts
+- `↑` `↓`: Navigate search suggestions
+- `Enter`: Select or search
+- `Esc`: Close search suggestions
+- `/`: Focus search bar (planned)
 
-# Testing
-npm run test             # Run all tests
-npm run test:watch       # Run tests in watch mode
-npm run test:coverage    # Generate coverage report (80% threshold)
+## 🌟 Top 10 Popular Projects
 
-# Utilities
-npm run analyze          # Analyze bundle size
-npm run clean            # Remove .next and node_modules
-```
+| Rank | Project | Description | ⭐ Stars |
+|------|---------|-------------|----------|
+| 1 | [cline/cline](https://github.com/cline/cline) | Autonomous AI coding agent in IDE | 48.9k |
+| 2 | [eyaltoledano/claude-task-master](https://github.com/eyaltoledano/claude-task-master) | AI-powered task management system | 20.2k |
+| 3 | [sst/opencode](https://github.com/sst/opencode) | Terminal-based AI coding agent | 18.4k |
+| 4 | [musistudio/claude-code-router](https://github.com/musistudio/claude-code-router) | Multi-model routing system | 11.6k |
+| 5 | [getAsterisk/claudia](https://github.com/getAsterisk/claudia) | Claude GUI desktop app | 11.2k |
+| 6 | [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Claude Code resource curation | 9.5k |
+| 7 | [asgeirtj/system_prompts_leaks](https://github.com/asgeirtj/system_prompts_leaks) | AI system prompt collection | 8.2k |
+| 8 | [wshobson/agents](https://github.com/wshobson/agents) | 58 specialized sub-agents | 7.6k |
+| 9 | [ryoppippi/ccusage](https://github.com/ryoppippi/ccusage) | Token usage analysis tool | 6.2k |
+| 10 | [ruvnet/claude-flow](https://github.com/ruvnet/claude-flow) | Enterprise AI orchestration | 5.6k |
 
-## 📁 Project Structure
+## 📱 Mobile Support
 
-```
-claude-hub/
-├── src/
-│   ├── app/              # Next.js app router
-│   │   ├── layout.tsx    # Root layout
-│   │   ├── page.tsx      # Home page
-│   │   └── globals.css   # Global styles
-│   │
-│   ├── components/       # React components (Atomic Design)
-│   │   ├── atoms/        # Basic building blocks
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Badge.tsx
-│   │   │   ├── Logo.tsx
-│   │   │   └── Skeleton.tsx
-│   │   │
-│   │   ├── molecules/    # Simple component groups
-│   │   │   ├── SearchBar.tsx
-│   │   │   ├── ExtensionCard.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   └── SuggestionList.tsx
-│   │   │
-│   │   ├── organisms/    # Complex structures
-│   │   │   ├── Header.tsx
-│   │   │   ├── ExtensionGrid.tsx
-│   │   │   ├── ExtensionModal.tsx
-│   │   │   └── SearchSection.tsx
-│   │   │
-│   │   └── templates/    # Page templates
-│   │       └── HomePage.tsx
-│   │
-│   ├── hooks/            # Custom React hooks
-│   ├── types/            # TypeScript definitions
-│   ├── utils/            # Utility functions
-│   ├── data/             # Static data
-│   │   ├── extensions.ts # Extension database
-│   │   └── suggestions.ts # Search suggestions
-│   │
-│   └── lib/              # Library code
-│
-├── public/               # Static assets
-├── CLAUDE.md            # AI assistant guide
-└── [config files]       # Various config files
-```
+Claude Hub provides an optimized experience across all devices with responsive design:
+- 📱 **Smartphones**: Touch-optimized interface
+- 📲 **Tablets**: Adaptive layout
+- 💻 **Desktop**: Full feature support
 
-## 🎨 Design System
+## 🔄 Data Updates
 
-### Color Palette
-- **Background**: `#0A0A0B` (Charcoal)
-- **Card**: `#111111` (Dark Gray)
-- **Text**: `#F5F5F5` (Soft White)
-- **Accent**: `#FF6B6B` (Coral)
-- **Border**: `#222222` (Gray)
-
-### Typography
-- **Font**: Fira Code (monospace)
-- **Weights**: 300, 400, 500, 600, 700
-
-### Key Features
-- Terminal-inspired aesthetics
-- 3D card tilt effects (5°)
-- Coral glow effects
-- Smooth 200ms transitions
-- Mobile-first responsive design
-
-## 🧪 Testing
-
-The project maintains an 80% test coverage threshold across all metrics:
-
-```bash
-# Run tests
-npm run test
-
-# Watch mode for development
-npm run test:watch
-
-# Generate coverage report
-npm run test:coverage
-```
-
-Test files are colocated with components (e.g., `Button.test.tsx`).
-
-## 🔧 Development Guidelines
-
-### Code Style
-- TypeScript strict mode enabled
-- Path aliases configured (`@/*` for `src/*`)
-- Unused variables must be prefixed with `_`
-- ESLint auto-fix on commit via Husky
-
-### Component Development
-1. Follow Atomic Design principles
-2. Use TypeScript interfaces for props
-3. Include tests for new components
-4. Use Tailwind CSS for styling
-5. Ensure accessibility compliance
-
-### Git Workflow
-1. Create feature branch from `main`
-2. Make changes following conventions
-3. Ensure tests pass and coverage maintained
-4. Commit with descriptive messages
-5. Open PR with detailed description
-
-## 🚀 Deployment
-
-The app is optimized for production deployment:
-
-- React strict mode enabled
-- Console logs removed in production
-- Optimized CSS and package imports
-- Image optimization (AVIF/WebP)
-- Security headers configured
-- TypeScript and ESLint errors block builds
-
-```bash
-# Build for production
-npm run build
-
-# Start production server
-npm run start
-```
+- **Real-time statistics** via GitHub API
+- Auto-refresh every 10 minutes
+- Latest releases and updates tracking
+- Offline cache support
 
 ## 🤝 Contributing
 
-We welcome contributions! Please follow these steps:
+Want to add a new Claude-related project?
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes following our guidelines
-4. Run tests and ensure coverage (`npm run test:coverage`)
-5. Commit your changes (`git commit -m 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request with a detailed description
+### Quick Add Method
+1. Visit [GitHub repository](https://github.com/pinion05/claude-hub)
+2. Edit `storage/claude-hub-repositories/all-repositories.json`
+3. Add project in the following format:
+```json
+{
+  "name": "owner/repo-name",
+  "github_url": "https://github.com/owner/repo-name",
+  "category": "category-name",
+  "tags": ["tag1", "tag2"]
+}
+```
+4. Submit Pull Request
 
-### Contribution Guidelines
-- Maintain 80% test coverage
-- Follow existing code style
-- Update documentation as needed
-- Add tests for new features
-- Ensure TypeScript types are properly defined
+### Project Addition Criteria
+- ✅ Direct relevance to Claude AI
+- ✅ Active maintenance (updated within 6 months)
+- ✅ Clear documentation
+- ✅ Open source license
+- ✅ Minimum 10 stars
+
+## 🛠️ Tech Stack
+
+This project is built with cutting-edge web technologies:
+
+- **Frontend**: Next.js 15, React 19
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript (Strict Mode)
+- **Performance**: Turbopack, ISR
+- **Testing**: Jest, React Testing Library
+- **API**: GitHub REST API v3
+
+## 📈 Roadmap
+
+### Planned Features
+- 🔍 Advanced filter options (language, license, date)
+- 💬 User review and rating system
+- 📊 Trend analysis dashboard
+- 🔔 New project notifications
+- 🌍 Multi-language support
+- 🎨 Theme customization
+- 📥 Bookmark and collection features
+
+## 📞 Contact & Feedback
+
+We look forward to hearing from you!
+
+- **Bug Reports**: [GitHub Issues](https://github.com/pinion05/claude-hub/issues)
+- **Feature Suggestions**: [Discussions](https://github.com/pinion05/claude-hub/discussions)
+- **Security Issues**: security@claude-hub.com
+- **General Inquiries**: contact@claude-hub.com
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is distributed under the MIT License. Feel free to use, modify, and distribute.
+
+See [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Built with [Next.js](https://nextjs.org/) by Vercel
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons from [Heroicons](https://heroicons.com/)
-- Font: [Fira Code](https://github.com/tonsky/FiraCode)
+This project was made possible by the support and contributions of the Claude AI community.
+
+Special thanks to:
+- All open source project maintainers
+- Users who provided feedback and suggestions
+- Claude AI team
 
 ---
 
-<p align="center">Made with ❤️ for the Claude community</p>
+<div align="center">
+  <p>
+    <strong>Claude Hub</strong> - Everything in the Claude AI Ecosystem
+  </p>
+  <p>
+    <a href="https://www.claude-hub.org">🌐 Website</a> •
+    <a href="https://github.com/pinion05/claude-hub">📦 GitHub</a> •
+    <a href="https://github.com/pinion05/claude-hub/issues">🐛 Issues</a> •
+    <a href="https://github.com/pinion05/claude-hub/discussions">💬 Discussions</a>
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Made%20with-❤️-FF6B6B?style=for-the-badge" alt="Made with Love">
+    <img src="https://img.shields.io/badge/For-Claude%20Community-000000?style=for-the-badge" alt="For Claude Community">
+  </p>
+</div>
