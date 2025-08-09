@@ -4,26 +4,27 @@ export interface Extension {
   description: string;
   category: ExtensionCategory;
   repoUrl: string;
+  githubUrl: string;
+  author: string;
   tags?: string[];
   stars?: number;
   lastUpdated?: string;
-  author?: string;
   downloads?: number;
   version?: string;
+  highlights?: string[];
+  rank?: number;
 }
 
 export type ExtensionCategory = 
-  | 'Development' 
-  | 'API' 
-  | 'Browser' 
-  | 'Productivity' 
-  | 'Terminal' 
-  | 'Data' 
-  | 'Mobile' 
-  | 'DevOps' 
-  | 'CMS' 
-  | 'E-commerce' 
-  | 'Education';
+  | 'ide-integration'
+  | 'agents-orchestration'
+  | 'monitoring-analytics'
+  | 'proxy-routing'
+  | 'resources-guides'
+  | 'gui-desktop'
+  | 'integration-extension'
+  | 'advanced-features'
+  | 'utilities';
 
 export interface SearchState {
   query: string;

@@ -1,53 +1,202 @@
 import { Extension } from '@/types';
+import repositoriesData from '../../storage/claude-hub-repositories/all-repositories.json';
 
-export const extensions: Extension[] = [
-  // Development Tools
-  { id: 1, name: 'Claude VSCode Extension', description: 'AI-powered coding assistant for Visual Studio Code', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-vscode', tags: ['vscode', 'ide', 'coding'], stars: 2500, downloads: 150000, lastUpdated: '2024-01-15' },
-  { id: 2, name: 'Claude IntelliJ Plugin', description: 'Claude integration for JetBrains IDEs', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-intellij', tags: ['intellij', 'jetbrains', 'ide'], stars: 1800, downloads: 85000, lastUpdated: '2024-01-10' },
-  { id: 3, name: 'Claude Vim Plugin', description: 'Bring Claude to your favorite text editor', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-vim', tags: ['vim', 'neovim', 'editor'], stars: 950, downloads: 25000, lastUpdated: '2024-01-08' },
-  { id: 4, name: 'Claude Sublime Text', description: 'Claude assistant for Sublime Text', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-sublime', tags: ['sublime', 'editor'], stars: 620, downloads: 18000, lastUpdated: '2024-01-05' },
-  { id: 5, name: 'Claude Emacs Mode', description: 'Emacs integration for Claude AI', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-emacs', tags: ['emacs', 'editor'], stars: 480, downloads: 12000, lastUpdated: '2024-01-03' },
-  { id: 6, name: 'Claude Atom Package', description: 'Claude AI assistant for Atom editor', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-atom', tags: ['atom', 'editor'], stars: 350, downloads: 8000, lastUpdated: '2023-12-28' },
-  { id: 7, name: 'Claude Neovim', description: 'Modern Neovim plugin for Claude', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-neovim', tags: ['neovim', 'vim', 'editor'], stars: 1100, downloads: 32000, lastUpdated: '2024-01-12' },
-  { id: 8, name: 'Claude Code Review', description: 'Automated code review with Claude', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-code-review', tags: ['code-review', 'automation'], stars: 2200, downloads: 95000, lastUpdated: '2024-01-14' },
-  { id: 9, name: 'Claude Debugger', description: 'AI-powered debugging assistant', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-debugger', tags: ['debugging', 'development'], stars: 1750, downloads: 68000, lastUpdated: '2024-01-11' },
-  { id: 10, name: 'Claude Test Generator', description: 'Generate unit tests with Claude', category: 'Development', repoUrl: 'https://github.com/anthropic/claude-test-gen', tags: ['testing', 'automation'], stars: 1950, downloads: 82000, lastUpdated: '2024-01-13' },
+export const extensions: Extension[] = repositoriesData.repositories
+  .filter(repo => repo.stars !== null)
+  .map((repo, index) => {
+    const ext: Extension = {
+      id: index + 1,
+      name: repo.name,
+      description: repo.description,
+      category: repo.category as Extension['category'],
+      repoUrl: repo.github_url,
+      githubUrl: repo.github_url,
+      tags: repo.tags,
+      stars: repo.stars as number,
+      author: repo.name.split('/')[0] || 'unknown'
+    };
+    
+    if (repo.last_updated) {
+      ext.lastUpdated = repo.last_updated;
+    }
+    
+    if (repo.version) {
+      ext.version = repo.version;
+    }
+    
+    return ext;
+  });
 
-  // API & SDKs
-  { id: 11, name: 'Claude Python SDK', description: 'Official Python SDK for Claude API', category: 'API', repoUrl: 'https://github.com/anthropic/claude-python', tags: ['python', 'sdk', 'api'], stars: 4500, downloads: 450000, lastUpdated: '2024-01-16' },
-  { id: 12, name: 'Claude JavaScript SDK', description: 'JavaScript/TypeScript SDK for Claude', category: 'API', repoUrl: 'https://github.com/anthropic/claude-js', tags: ['javascript', 'typescript', 'sdk'], stars: 3800, downloads: 380000, lastUpdated: '2024-01-15' },
-  { id: 13, name: 'Claude Go Client', description: 'Go client library for Claude API', category: 'API', repoUrl: 'https://github.com/anthropic/claude-go', tags: ['go', 'golang', 'sdk'], stars: 1200, downloads: 65000, lastUpdated: '2024-01-09' },
-  { id: 14, name: 'Claude Rust Crate', description: 'Rust library for Claude integration', category: 'API', repoUrl: 'https://github.com/anthropic/claude-rust', tags: ['rust', 'sdk'], stars: 890, downloads: 28000, lastUpdated: '2024-01-07' },
-  { id: 15, name: 'Claude Ruby Gem', description: 'Ruby gem for Claude API access', category: 'API', repoUrl: 'https://github.com/anthropic/claude-ruby', tags: ['ruby', 'gem', 'sdk'], stars: 650, downloads: 35000, lastUpdated: '2024-01-04' },
-  { id: 16, name: 'Claude PHP SDK', description: 'PHP SDK for Claude integration', category: 'API', repoUrl: 'https://github.com/anthropic/claude-php', tags: ['php', 'sdk'], stars: 780, downloads: 42000, lastUpdated: '2024-01-06' },
-  { id: 17, name: 'Claude Java Library', description: 'Java library for Claude API', category: 'API', repoUrl: 'https://github.com/anthropic/claude-java', tags: ['java', 'sdk'], stars: 1450, downloads: 78000, lastUpdated: '2024-01-10' },
-  { id: 18, name: 'Claude .NET SDK', description: '.NET SDK for Claude integration', category: 'API', repoUrl: 'https://github.com/anthropic/claude-dotnet', tags: ['dotnet', 'csharp', 'sdk'], stars: 1320, downloads: 69000, lastUpdated: '2024-01-08' },
-  { id: 19, name: 'Claude Swift Package', description: 'Swift package for iOS/macOS apps', category: 'API', repoUrl: 'https://github.com/anthropic/claude-swift', tags: ['swift', 'ios', 'macos', 'sdk'], stars: 920, downloads: 38000, lastUpdated: '2024-01-05' },
-  { id: 20, name: 'Claude Kotlin Library', description: 'Kotlin library for Android apps', category: 'API', repoUrl: 'https://github.com/anthropic/claude-kotlin', tags: ['kotlin', 'android', 'sdk'], stars: 850, downloads: 45000, lastUpdated: '2024-01-03' },
-
-  // Browser Extensions
-  { id: 21, name: 'Claude Chrome Extension', description: 'Official Chrome extension for Claude', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-chrome', tags: ['chrome', 'browser'], stars: 3200, downloads: 250000, lastUpdated: '2024-01-16' },
-  { id: 22, name: 'Claude Firefox Addon', description: 'Firefox addon for Claude integration', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-firefox', tags: ['firefox', 'browser'], stars: 1850, downloads: 120000, lastUpdated: '2024-01-14' },
-  { id: 23, name: 'Claude Safari Extension', description: 'Safari extension for macOS users', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-safari', tags: ['safari', 'macos', 'browser'], stars: 980, downloads: 45000, lastUpdated: '2024-01-10' },
-  { id: 24, name: 'Claude Edge Extension', description: 'Microsoft Edge extension for Claude', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-edge', tags: ['edge', 'microsoft', 'browser'], stars: 1120, downloads: 68000, lastUpdated: '2024-01-12' },
-  { id: 25, name: 'Claude Web Clipper', description: 'Save and analyze web content with Claude', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-clipper', tags: ['clipper', 'productivity'], stars: 2450, downloads: 145000, lastUpdated: '2024-01-15' },
-  { id: 26, name: 'Claude Translator', description: 'Browser-based translation with Claude', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-translator', tags: ['translation', 'language'], stars: 1680, downloads: 92000, lastUpdated: '2024-01-11' },
-  { id: 27, name: 'Claude Grammar Check', description: 'Grammar and style checking extension', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-grammar', tags: ['grammar', 'writing'], stars: 1950, downloads: 110000, lastUpdated: '2024-01-13' },
-  { id: 28, name: 'Claude Research Assistant', description: 'Research helper browser extension', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-research', tags: ['research', 'productivity'], stars: 1420, downloads: 75000, lastUpdated: '2024-01-09' },
-  { id: 29, name: 'Claude Summarizer', description: 'Summarize web pages with Claude', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-summarizer', tags: ['summarization', 'productivity'], stars: 2100, downloads: 125000, lastUpdated: '2024-01-14' },
-  { id: 30, name: 'Claude Email Assistant', description: 'Email composition helper for browsers', category: 'Browser', repoUrl: 'https://github.com/anthropic/claude-email', tags: ['email', 'productivity'], stars: 1350, downloads: 82000, lastUpdated: '2024-01-08' },
-
-  // Productivity Tools
-  { id: 31, name: 'Claude Raycast Extension', description: 'Quick access to Claude from Raycast', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-raycast', tags: ['raycast', 'macos', 'productivity'], stars: 2800, downloads: 95000, lastUpdated: '2024-01-16' },
-  { id: 32, name: 'Claude Alfred Workflow', description: 'Alfred workflow for macOS users', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-alfred', tags: ['alfred', 'macos', 'workflow'], stars: 1650, downloads: 58000, lastUpdated: '2024-01-12' },
-  { id: 33, name: 'Claude Obsidian Plugin', description: 'Claude integration for Obsidian notes', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-obsidian', tags: ['obsidian', 'notes', 'knowledge'], stars: 3400, downloads: 180000, lastUpdated: '2024-01-15' },
-  { id: 34, name: 'Claude Notion Integration', description: 'Use Claude within Notion workspace', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-notion', tags: ['notion', 'workspace', 'productivity'], stars: 2950, downloads: 165000, lastUpdated: '2024-01-14' },
-  { id: 35, name: 'Claude Slack Bot', description: 'Claude bot for Slack workspaces', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-slack', tags: ['slack', 'chat', 'bot'], stars: 4100, downloads: 220000, lastUpdated: '2024-01-16' },
-  { id: 36, name: 'Claude Discord Bot', description: 'Discord bot powered by Claude', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-discord', tags: ['discord', 'chat', 'bot'], stars: 3600, downloads: 195000, lastUpdated: '2024-01-15' },
-  { id: 37, name: 'Claude Teams Integration', description: 'Microsoft Teams bot for Claude', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-teams', tags: ['teams', 'microsoft', 'chat'], stars: 2200, downloads: 125000, lastUpdated: '2024-01-13' },
-  { id: 38, name: 'Claude Telegram Bot', description: 'Telegram bot with Claude AI', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-telegram', tags: ['telegram', 'chat', 'bot'], stars: 2750, downloads: 145000, lastUpdated: '2024-01-14' },
-  { id: 39, name: 'Claude WhatsApp Bridge', description: 'WhatsApp integration for Claude', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-whatsapp', tags: ['whatsapp', 'chat', 'messaging'], stars: 1850, downloads: 98000, lastUpdated: '2024-01-11' },
-  { id: 40, name: 'Claude Calendar Assistant', description: 'Calendar management with Claude', category: 'Productivity', repoUrl: 'https://github.com/anthropic/claude-calendar', tags: ['calendar', 'scheduling', 'productivity'], stars: 1420, downloads: 72000, lastUpdated: '2024-01-09' },
-
-  // Terminal & CLI - Rest of the data would continue...
+export const topExtensions: Extension[] = [
+  {
+    id: 1,
+    name: "cline/cline",
+    description: "IDE 내 자율 AI 코딩 에이전트",
+    category: "ide-integration",
+    repoUrl: "https://github.com/cline/cline",
+    githubUrl: "https://github.com/cline/cline",
+    tags: ["ide", "agent", "coding", "vscode"],
+    stars: 48900,
+    lastUpdated: "2025.08.09",
+    version: "v3.23.0",
+    author: "cline",
+    highlights: ["가장 인기 있는 Claude Code 관련 프로젝트", "VS Code 완벽 통합", "자율 코딩 에이전트"],
+    rank: 1
+  },
+  {
+    id: 2,
+    name: "eyaltoledano/claude-task-master",
+    description: "AI 기반 태스크 관리 시스템",
+    category: "agents-orchestration",
+    repoUrl: "https://github.com/eyaltoledano/claude-task-master",
+    githubUrl: "https://github.com/eyaltoledano/claude-task-master",
+    tags: ["agent", "task-management", "workflow"],
+    stars: 20200,
+    lastUpdated: "2025.07.29",
+    author: "eyaltoledano",
+    highlights: ["고급 태스크 관리", "AI 기반 워크플로우 자동화"],
+    rank: 2
+  },
+  {
+    id: 3,
+    name: "sst/opencode",
+    description: "터미널 기반 AI 코딩 에이전트",
+    category: "integration-extension",
+    repoUrl: "https://github.com/sst/opencode",
+    githubUrl: "https://github.com/sst/opencode",
+    tags: ["terminal", "cli", "agent", "coding"],
+    stars: 18400,
+    lastUpdated: "2025.08.09",
+    version: "v0.4.2",
+    author: "sst",
+    highlights: ["터미널 환경 최적화", "최신 업데이트 활발"],
+    rank: 3
+  },
+  {
+    id: 4,
+    name: "musistudio/claude-code-router",
+    description: "Claude Code 요청을 다른 모델로 라우팅",
+    category: "proxy-routing",
+    repoUrl: "https://github.com/musistudio/claude-code-router",
+    githubUrl: "https://github.com/musistudio/claude-code-router",
+    tags: ["proxy", "routing", "multi-model"],
+    stars: 11600,
+    lastUpdated: "2025.08",
+    author: "musistudio",
+    highlights: ["멀티 모델 지원", "유연한 라우팅 시스템"],
+    rank: 4
+  },
+  {
+    id: 5,
+    name: "getAsterisk/claudia",
+    description: "Claude Code용 GUI 데스크톱 앱",
+    category: "gui-desktop",
+    repoUrl: "https://github.com/getAsterisk/claudia",
+    githubUrl: "https://github.com/getAsterisk/claudia",
+    tags: ["gui", "desktop", "electron"],
+    stars: 11200,
+    lastUpdated: "2025.08.01",
+    version: "v0.1.0",
+    author: "getAsterisk",
+    highlights: ["직관적인 GUI", "크로스 플랫폼 데스크톱 앱"],
+    rank: 5
+  },
+  {
+    id: 6,
+    name: "hesreallyhim/awesome-claude-code",
+    description: "Claude Code 리소스 큐레이션",
+    category: "resources-guides",
+    repoUrl: "https://github.com/hesreallyhim/awesome-claude-code",
+    githubUrl: "https://github.com/hesreallyhim/awesome-claude-code",
+    tags: ["resources", "guide", "curated-list"],
+    stars: 9500,
+    lastUpdated: "2025.07.30",
+    author: "hesreallyhim",
+    highlights: ["종합 리소스 허브", "커뮤니티 큐레이션"],
+    rank: 6
+  },
+  {
+    id: 7,
+    name: "asgeirtj/system_prompts_leaks",
+    description: "AI 챗봇 시스템 프롬프트 컬렉션",
+    category: "resources-guides",
+    repoUrl: "https://github.com/asgeirtj/system_prompts_leaks",
+    githubUrl: "https://github.com/asgeirtj/system_prompts_leaks",
+    tags: ["prompts", "system-prompts", "collection"],
+    stars: 8200,
+    lastUpdated: "2025.05",
+    author: "asgeirtj",
+    highlights: ["시스템 프롬프트 연구", "다양한 AI 모델 포함"],
+    rank: 7
+  },
+  {
+    id: 8,
+    name: "wshobson/agents",
+    description: "58개 전문 서브에이전트 컬렉션",
+    category: "agents-orchestration",
+    repoUrl: "https://github.com/wshobson/agents",
+    githubUrl: "https://github.com/wshobson/agents",
+    tags: ["agents", "subagents", "collection"],
+    stars: 7600,
+    lastUpdated: "2025.08.04",
+    author: "wshobson",
+    highlights: ["대규모 에이전트 컬렉션", "다양한 전문 분야"],
+    rank: 8
+  },
+  {
+    id: 9,
+    name: "ryoppippi/ccusage",
+    description: "Claude Code 토큰 사용량 분석",
+    category: "monitoring-analytics",
+    repoUrl: "https://github.com/ryoppippi/ccusage",
+    githubUrl: "https://github.com/ryoppippi/ccusage",
+    tags: ["monitoring", "analytics", "token-usage", "cost"],
+    stars: 6200,
+    lastUpdated: "2025.08.09",
+    version: "v15.9.1",
+    author: "ryoppippi",
+    highlights: ["상세한 사용량 분석", "비용 최적화 도구"],
+    rank: 9
+  },
+  {
+    id: 10,
+    name: "ruvnet/claude-flow",
+    description: "엔터프라이즈 AI 오케스트레이션",
+    category: "agents-orchestration",
+    repoUrl: "https://github.com/ruvnet/claude-flow",
+    githubUrl: "https://github.com/ruvnet/claude-flow",
+    tags: ["orchestration", "enterprise", "workflow"],
+    stars: 5600,
+    lastUpdated: "2025.07",
+    version: "v2.0.0-alpha",
+    author: "ruvnet",
+    highlights: ["엔터프라이즈급 솔루션", "고급 오케스트레이션 기능"],
+    rank: 10
+  }
 ];
+
+export const categoryLabels: Record<Extension['category'], string> = {
+  'ide-integration': '💻 IDE Integration',
+  'agents-orchestration': '🤖 Agents & Orchestration',
+  'monitoring-analytics': '📊 Monitoring & Analytics',
+  'proxy-routing': '🔀 Proxy & Routing',
+  'resources-guides': '📚 Resources & Guides',
+  'gui-desktop': '🖥️ GUI & Desktop',
+  'integration-extension': '🔌 Integration & Extension',
+  'advanced-features': '⚡ Advanced Features',
+  'utilities': '🛠️ Utilities'
+};
+
+export const getExtensionsByCategory = (category: Extension['category']): Extension[] => {
+  return extensions.filter(ext => ext.category === category);
+};
+
+export const searchExtensions = (query: string): Extension[] => {
+  const lowerQuery = query.toLowerCase();
+  return extensions.filter(ext => 
+    ext.name.toLowerCase().includes(lowerQuery) ||
+    ext.description.toLowerCase().includes(lowerQuery) ||
+    ext.tags?.some(tag => tag.toLowerCase().includes(lowerQuery)) ||
+    ext.category.toLowerCase().includes(lowerQuery)
+  );
+};

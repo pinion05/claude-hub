@@ -1,0 +1,116 @@
+{
+  "categories": {
+    "ide-integration": {
+      "name": "IDE 통합",
+      "description": "IDE 및 에디터 통합 도구",
+      "repositories": [
+        "cline",
+        "claude-code-ide.el",
+        "claudecode.nvim",
+        "ClaudeR",
+        "kilocode"
+      ],
+      "count": 5
+    },
+    "agents-orchestration": {
+      "name": "에이전트 & 오케스트레이션",
+      "description": "AI 에이전트 및 워크플로우 관리",
+      "repositories": [
+        "claude-task-master",
+        "agents",
+        "claude-flow",
+        "claude-squad",
+        "awesome-claude-agents",
+        "claude-code-subagents-collection",
+        "claude_code_agent_farm",
+        "claude-sub-agent",
+        "claude-code-subagents"
+      ],
+      "count": 9
+    },
+    "monitoring-analytics": {
+      "name": "모니터링 & 분석",
+      "description": "사용량 추적 및 비용 분석",
+      "repositories": [
+        "ccusage",
+        "Claude-Code-Usage-Monitor",
+        "claude-sessions"
+      ],
+      "count": 3
+    },
+    "proxy-routing": {
+      "name": "프록시 & 라우팅",
+      "description": "요청 라우팅 및 프록시 서비스",
+      "repositories": [
+        "claude-code-router",
+        "claude-code-proxy"
+      ],
+      "count": 2
+    },
+    "resources-guides": {
+      "name": "리소스 & 가이드",
+      "description": "프롬프트, 템플릿, 가이드북",
+      "repositories": [
+        "awesome-claude-code",
+        "system_prompts_leaks",
+        "awesome-ai-system-prompts",
+        "claude-code-templates",
+        "awesome-claude-prompts",
+        "claude-code-guide",
+        "claude-prompt-generator",
+        "Claude-Code-Development-Kit",
+        "claude-crash-course-templates"
+      ],
+      "count": 9
+    },
+    "gui-desktop": {
+      "name": "GUI & 데스크톱",
+      "description": "GUI 애플리케이션 및 데스크톱 도구",
+      "repositories": [
+        "claudia",
+        "vibe-kanban",
+        "claudecodeui"
+      ],
+      "count": 3
+    },
+    "integration-extension": {
+      "name": "통합 & 확장",
+      "description": "외부 서비스 통합 및 확장",
+      "repositories": [
+        "opencode",
+        "claude-code-action",
+        "claude-context",
+        "claude-simone"
+      ],
+      "count": 4
+    },
+    "advanced-features": {
+      "name": "고급 기능",
+      "description": "고급 기능 및 해킹",
+      "repositories": [
+        "claude-code-hooks-mastery",
+        "claude-code-reverse",
+        "cc",
+        "Claude-Code-Communication"
+      ],
+      "count": 4
+    },
+    "utilities": {
+      "name": "유틸리티",
+      "description": "기타 유용한 도구",
+      "repositories": [
+        "superclaude",
+        "clod",
+        "claude-code-mastering"
+      ],
+      "count": 3
+    }
+  },
+  "statistics": {
+    "total_repositories": 43,
+    "total_categories": 9,
+    "largest_category": "agents-orchestration",
+    "smallest_category": "proxy-routing"
+  },
+  "last_updated": "2025-08-09"
+}

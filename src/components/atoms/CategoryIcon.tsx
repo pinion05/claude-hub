@@ -7,17 +7,15 @@ interface CategoryIconProps {
 }
 
 const iconMap: Record<ExtensionCategory, string> = {
-  'Development': '⚡',
-  'API': '🔌',
-  'Browser': '🌐',
-  'Productivity': '🚀',
-  'Terminal': '💻',
-  'Data': '📊',
-  'Mobile': '📱',
-  'DevOps': '🔧',
-  'CMS': '📝',
-  'E-commerce': '🛒',
-  'Education': '🎓'
+  'ide-integration': '⚡',
+  'agents-orchestration': '🤖',
+  'monitoring-analytics': '📊',
+  'proxy-routing': '🔌',
+  'resources-guides': '📚',
+  'gui-desktop': '🖥️',
+  'integration-extension': '🔗',
+  'advanced-features': '🔧',
+  'utilities': '🛠️'
 };
 
 export const CategoryIcon: React.FC<CategoryIconProps> = ({ category, className = '' }) => {
