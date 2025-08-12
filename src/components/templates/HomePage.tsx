@@ -6,6 +6,7 @@ import { Header } from '@/components/organisms/Header';
 import { SearchSection } from '@/components/organisms/SearchSection';
 import { ExtensionGrid } from '@/components/organisms/ExtensionGrid';
 import { CategoryFilter } from '@/components/molecules/CategoryFilter';
+import { ContributionBanner } from '@/components/molecules/ContributionBanner';
 import { useSearch } from '@/hooks/useSearch';
 import { useScrollSticky } from '@/hooks/useScrollSticky';
 import { useModal } from '@/hooks/useModal';
@@ -113,6 +114,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <GitHubDataProvider>
       <div className="min-h-screen bg-background text-foreground">
+        {/* Contribution Banner - always visible at the top */}
+        <ContributionBanner />
+        
         {/* Header - only visible when showing results */}
         {showResults && (
           <Header
