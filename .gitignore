@@ -87,3 +87,28 @@ pids
 # Temporary folders
 tmp/
 temp/
+
+# Unused documentation and scripts (prevent re-adding)
+REFACTORING_REPORT.md
+SECURITY-ACTION-ITEMS.md
+SECURITY.md
+scripts/lighthouse-analysis.js
+scripts/performance-analysis.js
+
+# Unused utility files (prevent re-adding)
+src/utils/crypto-secure.ts
+src/lib/github.ts
+src/lib/performance.ts
+src/types/web-vitals.ts
+
+# Analysis and report files
+*.analysis.json
+*.report.json
+lighthouse-report.html
+performance-report.html
+
+# Backup and temporary files
+*.bak
+*.backup
+*.orig
+*.rej
