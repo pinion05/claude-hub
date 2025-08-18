@@ -111,7 +111,7 @@ Want to add a new Claude-related project?
 
 ### Quick Add Method
 1. Visit [GitHub repository](https://github.com/pinion05/claude-hub)
-2. Edit `storage/claude-hub-repositories/all-repositories.json`
+2. Edit `all-repositories.json`
 3. Add project in the following format:
 ```json
 {

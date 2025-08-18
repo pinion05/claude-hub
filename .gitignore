@@ -41,7 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # local storage and cache
-/storage
 
 # IDE / Editor files
 .vscode/

@@ -1,7 +1,7 @@
 import { Extension } from '@/types';
 import { GitHubAPIError, RateLimitError, ValidationError, ErrorHandler } from '@/lib/errors';
 import { API_HEADERS, REVALIDATE_TIME } from '@/constants/api';
-import repositoriesData from '../../storage/claude-hub-repositories/all-repositories.json';
+import repositoriesData from '../../all-repositories.json';
 
 // Basic extensions data from JSON
 export const extensionsBase: Omit<Extension, 'description' | 'stars' | 'lastUpdated' | 'version' | 'author'>[] = repositoriesData.repositories
