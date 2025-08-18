@@ -6,7 +6,7 @@ export const ContributionBanner: React.FC = () => {
       <div className="max-w-6xl mx-auto px-6 py-3">
         <div className="flex items-center justify-center gap-2 text-sm">
           <span className="text-gray-300">
-            📁 Extension 리스트는 GitHub 파일시스템을 참조합니다.
+            📁 Extension list is sourced from the GitHub file system.
           </span>
           <a
             href="https://github.com/pinion05/claude-hub"
@@ -14,7 +14,7 @@ export const ContributionBanner: React.FC = () => {
             rel="noopener noreferrer"
             className="text-accent hover:text-accent-hover transition-colors font-medium"
           >
-            기여하세요! →
+            Contribute now! →
           </a>
         </div>
       </div>
