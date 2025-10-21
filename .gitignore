@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE and editor settings
+.vscode/
+.idea/
+
+# AI/Agent tool artifacts
+.swarm/
+.claude-flow/
+
+# Project documentation and reports (temporary/personal)
+CLAUDE.md
+*-REPORT.md
+*-ACTION-ITEMS.md
+SECURITY.md
