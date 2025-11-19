@@ -14,7 +14,9 @@ export * from './molecules/SuggestionList';
 // Organisms
 export * from './organisms/ExtensionGrid';
 export * from './organisms/ExtensionModal';
+export * from './organisms/AddExtensionModal';
 export * from './organisms/Header';
+export * from './organisms/LoginCard';
 export * from './organisms/SearchSection';
 
 // Templates
