@@ -37,8 +37,8 @@ export const AddExtensionModal: React.FC<AddExtensionModalProps> = ({
 
   const defaultCategory = (categoryOptions[0]?.[0] ?? 'ide-integration') as ExtensionCategory;
 
-  const getInitialState = useCallback<FormState>(
-    () => ({
+  const getInitialState = useCallback(
+    (): FormState => ({
       name: '',
       githubUrl: '',
       category: defaultCategory,
