@@ -1,6 +1,7 @@
 import { Extension } from '@/types';
 import { GitHubAPIError, RateLimitError, ValidationError, ErrorHandler } from '@/lib/errors';
 import { API_HEADERS, REVALIDATE_TIME } from '@/constants/api';
+import { redis } from '@/lib/redis';
 import repositoriesData from '../../storage/claude-hub-repositories/all-repositories.json';
 
 // Basic extensions data from JSON
@@ -181,6 +182,18 @@ export async function fetchExtensionWithGitHubData(
   }
 }
 
+async function getRawRepositories() {
+  try {
+    const cachedData = await redis.get('extensions:data');
+    if (cachedData) {
+      return JSON.parse(cachedData);
+    }
+  } catch (error) {
+    console.warn('Failed to fetch from Redis, falling back to local file system:', error);
+  }
+  return repositoriesData.repositories;
+}
+
 /**
  * Fetches all extensions with GitHub data in parallel
  * 
@@ -191,8 +204,19 @@ export async function fetchExtensionWithGitHubData(
  * @returns {Promise<Extension[]>} Array of extensions sorted by popularity
  */
 export async function fetchAllExtensions(): Promise<Extension[]> {
+  const rawRepos = await getRawRepositories();
+
+  const currentExtensionsBase = rawRepos.map((repo: any, index: number) => ({
+    id: index + 1,
+    name: repo.name,
+    category: repo.category as Extension['category'],
+    repoUrl: repo.github_url,
+    githubUrl: repo.github_url,
+    tags: repo.tags
+  }));
+
   const results = await Promise.allSettled(
-    extensionsBase.map(ext => fetchExtensionWithGitHubData(ext))
+    currentExtensionsBase.map((ext: typeof extensionsBase[0]) => fetchExtensionWithGitHubData(ext))
   );
   
   return results

@@ -18,6 +18,10 @@ const ExtensionModal = lazy(() => import('@/components/organisms/ExtensionModal'
   default: module.ExtensionModal
 })));
 
+const AddExtensionModal = lazy(() => import('@/components/organisms/AddExtensionModal').then(module => ({
+  default: module.AddExtensionModal
+})));
+
 /**
  * HomePage Props
  * @property {Extension[]} extensions - List of all available extensions
@@ -70,6 +74,7 @@ export const HomePage: React.FC<HomePageProps> = ({
   });
 
   const extensionModal = useModal<Extension>();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   // Get unique categories from extensions
   const categories = useMemo(() => {
@@ -155,9 +160,18 @@ export const HomePage: React.FC<HomePageProps> = ({
           {/* Initial extension grid */}
           <div className="max-w-6xl mx-auto px-6 pb-12">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2">
-                {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
-              </h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h2 className="text-3xl font-bold">
+                  {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
+                </h2>
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className="px-3 py-1 text-xs font-medium text-accent border border-accent/50 rounded-full hover:bg-accent/10 transition-colors"
+                  aria-label="Add new extension"
+                >
+                  + Add
+                </button>
+              </div>
               <p className="text-gray-400">
                 {query ? 
                   `${categoryFilteredExtensions.length} results for "${query}"` : 
@@ -187,9 +201,18 @@ export const HomePage: React.FC<HomePageProps> = ({
         <main className="pt-24 pb-12 animate-[fadeIn_0.3s_ease-out]">
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold mb-2">
-                {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
-              </h2>
+              <div className="flex items-center gap-3 mb-2">
+                <h2 className="text-3xl font-bold">
+                  {selectedCategory === 'all' ? 'All Extensions' : `${categoryLabels[selectedCategory]} Extensions`}
+                </h2>
+                <button
+                  onClick={() => setIsAddModalOpen(true)}
+                  className="px-3 py-1 text-xs font-medium text-accent border border-accent/50 rounded-full hover:bg-accent/10 transition-colors"
+                  aria-label="Add new extension"
+                >
+                  + Add
+                </button>
+              </div>
               <p className="text-gray-400">
                 {query ? 
                   `${categoryFilteredExtensions.length} results for "${query}"` : 
@@ -222,6 +245,29 @@ export const HomePage: React.FC<HomePageProps> = ({
           extension={extensionModal.data}
           isOpen={extensionModal.isOpen}
           onClose={extensionModal.close}
+        />
+        <AddExtensionModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          onSubmit={async (entry) => {
+            try {
+              const response = await fetch('/api/extensions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(entry),
+              });
+              
+              if (!response.ok) throw new Error('Failed to add extension');
+              
+              // Refresh the page to show the new extension
+              window.location.reload();
+            } catch (error) {
+              console.error('Error adding extension:', error);
+              alert('Failed to add extension. Please try again.');
+            } finally {
+              setIsAddModalOpen(false);
+            }
+          }}
         />
       </Suspense>
       </div>

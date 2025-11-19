@@ -1,0 +1,10 @@
+# Codex CLI MCP servers configuration
+# 참고: 비밀 토큰은 파일에 직접 저장하지 말고 환경변수로 주입하세요.
+
+[mcp_servers.github]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-github"]
+# 환경변수는 프로세스 환경에서 전달합니다. (예: export GITHUB_PERSONAL_ACCESS_TOKEN=...)
+# 필요 시 아래 라인을 활성화해 명시적으로 전달할 수 있습니다.
+# env = { GITHUB_PERSONAL_ACCESS_TOKEN = "$GITHUB_PERSONAL_ACCESS_TOKEN" }
+

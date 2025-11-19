@@ -60,3 +60,10 @@ export interface AppError {
   code?: string;
   details?: unknown;
 }
+
+export interface RepositoryEntry {
+  name: string;
+  github_url: string;
+  category: ExtensionCategory;
+  tags: string[];
+}
